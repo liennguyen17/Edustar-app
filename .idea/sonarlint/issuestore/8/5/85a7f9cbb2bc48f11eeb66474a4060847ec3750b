@@ -1,0 +1,17 @@
+
+A
+java:S1452"&Remove usage of generic wildcard type.(İÙÒùÿÿÿÿ
+A
+java:S1452'"&Remove usage of generic wildcard type.(Áİ“ïşÿÿÿÿ
+<
+java:S1452-"&Remove usage of generic wildcard type.(ì¢¾ï
+<
+java:S14523"&Remove usage of generic wildcard type.(ïÛÁ
+<
+java:S1452:"&Remove usage of generic wildcard type.(ŸöÃÎ
+<
+java:S1452@"&Remove usage of generic wildcard type.(Íúå
+A
+java:S1452J"&Remove usage of generic wildcard type.(ë½ÄÂûÿÿÿÿ
+h
+java:S6204N"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(†öúš
