@@ -70,7 +70,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/test/**").authenticated()
-                .requestMatchers("/document/**").authenticated()
+//                .requestMatchers("/document/**").authenticated()
 //                .anyRequest().authenticated();
                 .anyRequest().permitAll();
 

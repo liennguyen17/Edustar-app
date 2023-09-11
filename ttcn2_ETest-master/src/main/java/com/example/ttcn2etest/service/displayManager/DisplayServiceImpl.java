@@ -55,6 +55,7 @@ public class DisplayServiceImpl implements DisplayService {
                     .image(request.getImage())
                     .description(request.getDescription())
                     .location(request.getLocation())
+                    .type(request.getType())
                     .createdDate(new Timestamp(System.currentTimeMillis()))
                     .updateDate(new Timestamp(System.currentTimeMillis()))
                     .build();
@@ -74,6 +75,7 @@ public class DisplayServiceImpl implements DisplayService {
             displayManager.setImage(request.getImage());
             displayManager.setDescription(request.getDescription());
             displayManager.setLocation(request.getLocation());
+            displayManager.setType(request.getType());
             displayManager.setUpdateDate(new Timestamp(System.currentTimeMillis()));
             return modelMapper.map(displayManagerRepository.saveAndFlush(displayManager), DisplayManagerDTO.class);
         }

@@ -19,6 +19,7 @@ public class DisplayManagerDTO {
     private String description;
     private String image;
     private String location;
+    private String type;
     @JsonFormat(pattern = DateTimeConstant.DATE_TIME_FORMAT, timezone = DateTimeConstant.TIME_ZONE)
     private Timestamp createdDate;
     @JsonFormat(pattern = DateTimeConstant.DATE_TIME_FORMAT, timezone = DateTimeConstant.TIME_ZONE)

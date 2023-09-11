@@ -32,8 +32,12 @@ public class DisplayManager {
     private String image;
     @Size(max = 100)
     private String location;
+    @Size(max = 50)
+    private String type;
+
     @Column(name = "created_date")
     private Timestamp createdDate;
     @Column(name = "update_date")
     private Timestamp updateDate;
+
 }

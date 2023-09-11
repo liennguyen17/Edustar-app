@@ -18,4 +18,5 @@ public class UpdateDisplayRequest {
     @NotBlank(message = "Vị trí không được để trống!")
     @Size(max = 100)
     private String location;
+    private String type;
 }

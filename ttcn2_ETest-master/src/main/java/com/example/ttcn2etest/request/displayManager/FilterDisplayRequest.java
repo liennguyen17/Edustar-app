@@ -16,4 +16,5 @@ public class FilterDisplayRequest {
     private String dateTo;
     private String title;
     private String location;
+    private String type;
 }
