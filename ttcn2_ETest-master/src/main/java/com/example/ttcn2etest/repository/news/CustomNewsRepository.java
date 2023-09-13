@@ -15,7 +15,7 @@ import java.util.List;
 public class CustomNewsRepository {
     public static Specification<News> filterSpecification(Date dateFrom, Date dateTo,
                                                           FilterNewsRequest request) {
-        return ((((root, query, criteriaBuilder) -> {
+        return ((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (dateFrom != null && dateTo != null) {
                 predicates.add(criteriaBuilder.between(root.get("createdDate"), dateFrom, dateTo));
@@ -24,6 +24,6 @@ public class CustomNewsRepository {
                 predicates.add(criteriaBuilder.like(root.get("name"), "%" + request.getName() + "%"));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-        })));
+        });
     }
 }

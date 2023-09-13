@@ -40,4 +40,5 @@ public class UpdateUserRequest {
 
     private String roleId;
     private List<Long> services;
+    private boolean isVerified;
 }

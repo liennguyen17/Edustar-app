@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 public class NewsDTO {
     private Long id;
     private String name;
+    private String description;
     private String content;
     private String image;
     @JsonFormat(pattern = DateTimeConstant.DATE_TIME_FORMAT, timezone = DateTimeConstant.TIME_ZONE)

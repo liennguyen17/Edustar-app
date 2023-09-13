@@ -17,6 +17,6 @@ public class FilterDocumentRequest {
     @DateValidateAnnotation(message = "DateTo phải có định dạng dd/MM/yyyy")
     private String dateTo;
     private String name;
-    private ConsultingRegistration.Status status;
+    private Document.Status status;
 
 }

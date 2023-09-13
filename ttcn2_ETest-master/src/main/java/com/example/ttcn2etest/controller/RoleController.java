@@ -82,7 +82,7 @@ public class RoleController extends BaseController {
                 !Strings.isEmpty(request.getDateTo()) ? MyUtils.convertDateFromString(request.getDateTo(), DateTimeConstant.DATE_FORMAT) : null);
         List<RoleDTO> roleDTOS = rolePage.getContent().stream().map(
                 role -> modelMapper.map(role, RoleDTO.class)
-        ).collect(Collectors.toList());
+        ).toList();
         return buildListItemResponse(roleDTOS, rolePage.getTotalElements());
     }
 }

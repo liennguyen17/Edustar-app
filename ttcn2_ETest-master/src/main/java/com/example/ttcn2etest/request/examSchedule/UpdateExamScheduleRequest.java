@@ -31,8 +31,8 @@ public class UpdateExamScheduleRequest {
     private String examMethod;
     @NotBlank(message = "Đối tượng thi không được để trống!")
     private String examinationObject;
-    @NotBlank(message = "Lệ phí thi không được để trống!")
-    private String examinationFee;
+    @NotEmpty(message = "Lệ phí thi không được để trống!")
+    private List<String> examinationFee;
     @NotEmpty(message = "Hồ sơ đăng ký thi không được để trống!")
     private List<String> examRegistrationRecords;
     @NotBlank(message = "Thời gian cấp chứng nhận không được để trống!")

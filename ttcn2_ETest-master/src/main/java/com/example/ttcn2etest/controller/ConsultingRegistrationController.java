@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/consulting/registration")
@@ -82,7 +81,7 @@ public class ConsultingRegistrationController extends BaseController {
                 !Strings.isEmpty(request.getDateTo()) ? MyUtils.convertDateFromString(request.getDateTo(), DateTimeConstant.DATE_FORMAT) : null);
         List<ConsultingRegistrationDTO> consultingRegistrationDTOS = consultingRegistrationPage.getContent().stream().map(
                 consultingRegistration -> modelMapper.map(consultingRegistration, ConsultingRegistrationDTO.class)
-        ).collect(Collectors.toList());
+        ).toList();
         return buildListItemResponse(consultingRegistrationDTOS, consultingRegistrationPage.getTotalElements());
     }
 }

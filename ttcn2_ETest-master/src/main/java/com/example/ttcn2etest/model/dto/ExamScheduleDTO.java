@@ -25,7 +25,7 @@ public class ExamScheduleDTO {
     private String registrationTerm;
     private String examMethod;
     private String examinationObject;
-    private String examinationFee;
+    private List<String> examinationFee;
     private List<String> examRegistrationRecords;
     private String certificationTime;
     @JsonFormat(pattern = DateTimeConstant.DATE_TIME_FORMAT, timezone = DateTimeConstant.TIME_ZONE)

@@ -86,7 +86,7 @@ public class ServiceController extends BaseController {
         );
         List<ServiceDTO> serviceDTOS = servicePage.getContent().stream().map(
                 service -> modelMapper.map(service, ServiceDTO.class)
-        ).collect(Collectors.toList());
+        ).toList();
         return buildListItemResponse(serviceDTOS, servicePage.getTotalElements());
     }
 

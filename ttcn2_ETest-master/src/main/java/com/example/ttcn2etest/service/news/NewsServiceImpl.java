@@ -55,6 +55,7 @@ public class NewsServiceImpl implements NewsService {
         try {
             News news = News.builder()
                     .name(request.getName())
+                    .description(request.getDescription())
                     .content(request.getContent())
                     .image(request.getImage())
                     .createdDate(new Timestamp(System.currentTimeMillis()))
@@ -73,6 +74,7 @@ public class NewsServiceImpl implements NewsService {
         if (newsOptional.isPresent()) {
             News news = newsOptional.get();
             news.setName(request.getName());
+            news.setDescription(request.getDescription());
             news.setContent(request.getContent());
             news.setImage(request.getImage());
             news.setUpdateDate(new Timestamp(System.currentTimeMillis()));

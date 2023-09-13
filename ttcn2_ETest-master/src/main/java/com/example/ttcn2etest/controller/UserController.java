@@ -85,7 +85,7 @@ public class UserController extends BaseController {
         );
         List<UserDTO> userDTOS = userPage.getContent().stream().map(
                 user -> modelMapper.map(user, UserDTO.class)
-        ).collect(Collectors.toList());
+        ).toList();
         return buildListItemResponse(userDTOS, userPage.getTotalElements());
     }
 }

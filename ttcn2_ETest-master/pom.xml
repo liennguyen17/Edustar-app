@@ -129,6 +129,28 @@
             <version>32.0.1-jre</version>
         </dependency>
 
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.sun.mail/javax.mail &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.sun.mail</groupId>-->
+<!--            <artifactId>javax.mail</artifactId>-->
+<!--            <version>1.6.2</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/jakarta.mail/jakarta.mail-api &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>jakarta.mail</groupId>-->
+<!--            <artifactId>jakarta.mail-api</artifactId>-->
+<!--            <version>2.1.1</version>-->
+<!--        </dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+
+
+
     </dependencies>
 
 

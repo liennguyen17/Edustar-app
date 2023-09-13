@@ -12,6 +12,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,12 +47,14 @@ public class NewsController extends BaseController {
     }
 
     @PostMapping("")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> createNews(@Validated @RequestBody CreateNewsRequest request) {
         NewsDTO response = newsService.createNews(request);
         return buildItemResponse(response);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> updateNews(@Validated @RequestBody UpdateNewsRequest request,
                                  @PathVariable("id") Long id) {
         NewsDTO response = newsService.updateNews(request, id);
@@ -59,12 +62,14 @@ public class NewsController extends BaseController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> deleteById(@PathVariable Long id) {
         NewsDTO response = newsService.deleteByIdNews(id);
         return buildItemResponse(response);
     }
 
     @DeleteMapping("/delete/all")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> deleteAllById(@RequestBody List<Long> ids) {
         try {
             List<NewsDTO> response = newsService.deleteAllIdNews(ids);
@@ -75,6 +80,7 @@ public class NewsController extends BaseController {
     }
 
     @PostMapping("/filter")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     public ResponseEntity<?> filter(@Validated @RequestBody FilterNewsRequest request) throws ParseException {
         Page<News> newsPage = newsService.filterNews(
                 request,
@@ -83,7 +89,7 @@ public class NewsController extends BaseController {
         );
         List<NewsDTO> newsDTOS = newsPage.getContent().stream().map(
                 news -> modelMapper.map(news, NewsDTO.class)
-        ).collect(Collectors.toList());
+        ).toList();
         return buildListItemResponse(newsDTOS, newsPage.getTotalElements());
     }
 

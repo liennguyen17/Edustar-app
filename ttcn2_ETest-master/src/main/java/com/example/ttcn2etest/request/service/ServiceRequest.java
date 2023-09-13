@@ -54,6 +54,6 @@ public class ServiceRequest {
     @Size(max = 2000, message = "Link ảnh có độ dài từ 0-2000 ký tự!")
     private String image;
     //    @NotBlank(message = "Nội dung không được để trống!")
-    @Size(max = 6000, message = "Nội dung có độ dài từ 0-6000 ký tự!")
+//    @Size(max = 6000, message = "Nội dung có độ dài từ 0-6000 ký tự!")
     private String content;
 }

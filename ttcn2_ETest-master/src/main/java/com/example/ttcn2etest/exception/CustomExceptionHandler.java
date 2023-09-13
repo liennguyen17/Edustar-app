@@ -32,11 +32,11 @@ public class CustomExceptionHandler {
     public BaseResponse methodArgumentNotValidException(MethodArgumentNotValidException ex) {
         BindingResult bindingResult = ex.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-        BaseResponse response = BaseResponse.builder()
+        return BaseResponse.builder()
                 .success(false)
                 .error(processFieldErrors(fieldErrors))
                 .build();
-        return response;
+//        return response;
     }
 
     @ResponseStatus(OK)

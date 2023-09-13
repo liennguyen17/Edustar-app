@@ -41,8 +41,9 @@ public class ExamSchedule {
     private String examMethod;
     @Column(name = "examination_object")
     private String examinationObject;
-    @Column(name = "examination_fee")
-    private String examinationFee;
+    @Column(name = "examination_fee", columnDefinition = "TEXT")
+    @ElementCollection
+    private List<String> examinationFee;
     @Column(name = "exam_registration_records", columnDefinition = "TEXT")
     @ElementCollection
     private List<String> examRegistrationRecords;

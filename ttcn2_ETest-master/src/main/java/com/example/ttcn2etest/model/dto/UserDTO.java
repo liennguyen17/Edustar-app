@@ -24,6 +24,7 @@ public class UserDTO {
     private Date dateOfBirth;
     private String phone;
     private String email;
+    private boolean isVerified;
     private String address;
     private Boolean isSuperAdmin = false;
     private String avatar;

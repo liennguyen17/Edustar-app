@@ -5,6 +5,7 @@ import com.example.ttcn2etest.service.auth.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -17,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -48,7 +51,6 @@ public class WebSecurityConfig {
         return authProvider;
     }
 
-    //    @Bean(name = "webPasswordEncoder")
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -69,10 +71,16 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/user/auth/**").permitAll()
                 .requestMatchers("/test/**").authenticated()
-//                .requestMatchers("/document/**").authenticated()
-//                .anyRequest().authenticated();
-                .anyRequest().permitAll();
+                .requestMatchers(request -> {
+                    if (request.getMethod().equals(HttpMethod.GET.toString())) {
+                        return new RegexRequestMatcher("/(document|news|slide|service|display|exam/schedule|...)/(all|\\d+)", null).matches(request);
+                    }
+                    return false;
+                }).permitAll()
+                .anyRequest().authenticated();
+//                .anyRequest().permitAll();
 
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(corsConfigFilter, UsernamePasswordAuthenticationFilter.class);

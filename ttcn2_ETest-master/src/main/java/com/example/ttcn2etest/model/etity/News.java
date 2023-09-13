@@ -27,6 +27,9 @@ public class News {
     private String name;
     @NotBlank
     @Size(max = 5000)
+    private String description;
+    @NotBlank
+    @Column(columnDefinition = "TEXT")
     private String content;
     @Size(max = 2000)
     private String image;

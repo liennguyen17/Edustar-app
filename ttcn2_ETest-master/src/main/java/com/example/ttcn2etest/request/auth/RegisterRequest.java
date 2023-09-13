@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
+    @NotBlank(message = "Họ và tên không được để trống!")
+    @Size(min = 6, max = 100, message = "Họ và tên phải có ít nhất 6, nhiều nhất 100 kí tự!")
+    private String name;
     @NotBlank(message = "Tên đăng ký không được để trống!")
     @Size(min = 6, max = 100, message = "Tên đăng ký phải có ít nhất 6, nhiều nhất 100 kí tự!")
     private String username;
@@ -25,4 +28,5 @@ public class RegisterRequest {
     @EmailAnnotation
     private String email;
     private Boolean isSuperAdmin = false;
+    private String link;
 }

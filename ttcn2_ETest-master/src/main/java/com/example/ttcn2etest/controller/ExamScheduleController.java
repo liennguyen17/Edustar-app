@@ -75,7 +75,7 @@ public class ExamScheduleController extends BaseController {
         Page<ExamSchedule> examSchedulePage = examScheduleService.filterExamSchedule(request);
             List<ExamScheduleDTO> examScheduleDTOS = examSchedulePage.getContent().stream().map(
                     examSchedule -> modelMapper.map(examSchedule, ExamScheduleDTO.class)
-            ).collect(Collectors.toList());
+            ).toList();
             return buildListItemResponse(examScheduleDTOS, examSchedulePage.getTotalElements());
     }
 

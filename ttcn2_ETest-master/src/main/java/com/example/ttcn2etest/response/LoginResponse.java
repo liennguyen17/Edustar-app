@@ -12,6 +12,7 @@ import java.util.List;
 public class LoginResponse {
     private String jwt;
     private Long id;
+    private String name;
     private String username;
     private String phone;
     private String email;

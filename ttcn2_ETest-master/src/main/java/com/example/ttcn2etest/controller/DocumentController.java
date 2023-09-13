@@ -31,7 +31,6 @@ public class DocumentController extends BaseController {
     }
 
     @GetMapping("/all")
-//    @PreAuthorize("hasAnyAuthority('ADMIN', 'STAFF','CUSTOMER')")
     ResponseEntity<?> getAllDocument() {
         try {
             List<DocumentDTO> response = documentService.getAllDocument();
@@ -42,7 +41,6 @@ public class DocumentController extends BaseController {
     }
 
     @GetMapping("/{id}")
-//    @PreAuthorize("hasAnyAuthority('ADMIN', 'STAFF','CUSTOMER')")
     ResponseEntity<?> getById(@PathVariable Long id) {
         DocumentDTO response = documentService.getByIdDocument(id);
         return buildItemResponse(response);
@@ -50,14 +48,14 @@ public class DocumentController extends BaseController {
 
 
     @PostMapping("")
-//    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> createDocument(@Validated @RequestBody CreateDocumentRequest request) {
         DocumentDTO response = documentService.createDocument(request);
         return buildItemResponse(response);
     }
 
     @PutMapping("/{id}")
-//    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> updateService(@Validated @RequestBody UpdateDocumentRequest request,
                                     @PathVariable("id") Long id) {
         DocumentDTO response = documentService.updateDocument(request, id);
@@ -65,14 +63,14 @@ public class DocumentController extends BaseController {
     }
 
     @DeleteMapping("/{id}")
-//    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> deleteById(@PathVariable Long id) {
         DocumentDTO response = documentService.deleteByIdDocument(id);
         return buildItemResponse(response);
     }
 
     @DeleteMapping("/delete/all")
-//    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> deleteAllIdDocument(@RequestBody List<Long> ids) {
         try {
             List<DocumentDTO> response = documentService.deleteAllIdDocument(ids);
@@ -83,6 +81,7 @@ public class DocumentController extends BaseController {
     }
 
     @PostMapping("/filter")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     public ResponseEntity<?> filter(@Validated @RequestBody FilterDocumentRequest request) throws ParseException {
         Page<Document> documentPage = documentService.filterDocument(
                 request,

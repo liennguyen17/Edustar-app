@@ -53,6 +53,7 @@ public class AuthenServiceImpl implements AuthenService {
 
         return new LoginResponse(jwt,
                 userDetails.getId(),
+                userDetails.getName(),
                 userDetails.getUsername(),
                 userDetails.getPhone(),
                 userDetails.getEmail(),
@@ -74,6 +75,7 @@ public class AuthenServiceImpl implements AuthenService {
             customerRole = roleRepository.save(customerRole);
         }
         User user = User.builder()
+                .name(signUpRequest.getName())
                 .username(signUpRequest.getUsername())
                 .email(signUpRequest.getEmail())
                 .isSuperAdmin(false)
@@ -82,6 +84,6 @@ public class AuthenServiceImpl implements AuthenService {
                 .role(customerRole)
                 .build();
 
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
     }
 }

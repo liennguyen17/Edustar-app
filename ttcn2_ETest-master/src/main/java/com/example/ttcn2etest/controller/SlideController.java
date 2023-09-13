@@ -83,7 +83,7 @@ public class SlideController extends BaseController {
         );
         List<SlideDTO> slideDTOS = slidePage.getContent().stream().map(
                 slide -> modelMapper.map(slide, SlideDTO.class)
-        ).collect(Collectors.toList());
+        ).toList();
         return buildListItemResponse(slideDTOS, slidePage.getTotalElements());
     }
 

@@ -15,7 +15,7 @@ import java.util.List;
 public class CustomDocumentRepository {
     public static Specification<Document> filterSpecification(Date dateFrom, Date dateTo,
                                                               FilterDocumentRequest request) {
-        return ((((root, query, criteriaBuilder) -> {
+        return ((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (dateFrom != null && dateTo != null) {
                 predicates.add(criteriaBuilder.between(root.get("createdDate"), dateFrom, dateTo));
@@ -32,6 +32,6 @@ public class CustomDocumentRepository {
                 }
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-        })));
+        });
     }
 }

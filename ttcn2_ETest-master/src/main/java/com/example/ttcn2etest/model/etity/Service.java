@@ -67,7 +67,7 @@ public class Service {
     private TypeService typeOfService;       //là dịch vụ chương trình Anh ngữ, Khóa học trong CT hay là lịch ôn tập
     @Size(max = 2000)
     private String image;
-    @Size(max = 6000)
+    @Column(columnDefinition = "TEXT")
     private String content;
     @Column(name = "created_date")
     private Timestamp createdDate;

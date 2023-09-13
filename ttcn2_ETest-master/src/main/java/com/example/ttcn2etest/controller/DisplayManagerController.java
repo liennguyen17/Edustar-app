@@ -92,7 +92,7 @@ public class DisplayManagerController extends BaseController {
                 !Strings.isEmpty(request.getDateTo()) ? MyUtils.convertDateFromString(request.getDateTo(), DateTimeConstant.DATE_FORMAT) : null);
         List<DisplayManagerDTO> displayManagerDTOS = displayPage.getContent().stream().map(
                 displayManager -> modelMapper.map(displayManager, DisplayManagerDTO.class)
-        ).collect(Collectors.toList());
+        ).toList();
         return buildListItemResponse(displayManagerDTOS, displayPage.getTotalElements());
     }
 

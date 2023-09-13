@@ -25,12 +25,12 @@ public class MinioConfig {
                     .writeTimeout(10, TimeUnit.MINUTES)
                     .readTimeout(30, TimeUnit.MINUTES)
                     .build();
-            MinioClient client = MinioClient.builder()
+            return MinioClient.builder()
                     .endpoint(minioUrl)
                     .httpClient(httpClient)
                     .credentials(accessKey, accessSecret)
                     .build();
-            return client;
+//            return client;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
