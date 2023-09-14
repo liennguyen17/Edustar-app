@@ -8,10 +8,14 @@ import java.util.List;
 
 public interface PermissionService {
     List<PermissionDTO> getAllPermission();
+
     PermissionDTO getByIdPermission(String id);
+
     PermissionDTO createPermission(CreatePermissionRequest request);
+
     PermissionDTO updatePermission(UpdatePermissionRequest request, String id);
 
     PermissionDTO deleteByIdPermission(String id);
+
     List<PermissionDTO> deleteAllIdPermission(List<String> ids);
 }

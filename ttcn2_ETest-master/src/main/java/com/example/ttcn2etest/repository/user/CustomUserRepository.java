@@ -43,7 +43,7 @@ public class CustomUserRepository {
                 predicates.add(criteriaBuilder.like(root.get("address"), "%" + request.getAddress() + "%"));
             }
             if (StringUtils.hasText(request.getRoleId())) {
-                predicates.add(criteriaBuilder.like(root.get("role"),"%" + request.getRoleId()+"%"));
+                predicates.add(criteriaBuilder.like(root.get("role"), "%" + request.getRoleId() + "%"));
             }
 //            if(StringUtils.hasText(request.getServiceId())){
 //                predicates.add(criteriaBuilder.like(root.get("services"),"%" + request.getServiceId()+"%"));

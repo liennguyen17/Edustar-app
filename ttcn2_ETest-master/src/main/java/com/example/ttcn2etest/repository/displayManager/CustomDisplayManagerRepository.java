@@ -26,7 +26,7 @@ public class CustomDisplayManagerRepository {
             if (StringUtils.hasText(request.getLocation())) {
                 predicates.add(criteriaBuilder.like(root.get("location"), "%" + request.getLocation() + "%"));
             }
-            if(StringUtils.hasText(request.getType())){
+            if (StringUtils.hasText(request.getType())) {
                 predicates.add(criteriaBuilder.like(root.get("type"), "%" + request.getType() + "%"));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

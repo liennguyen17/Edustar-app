@@ -1,5 +1,6 @@
 package com.example.ttcn2etest.service.role;
 
+import com.example.ttcn2etest.exception.MyCustomException;
 import com.example.ttcn2etest.model.dto.RoleDTO;
 import com.example.ttcn2etest.model.etity.Permission;
 import com.example.ttcn2etest.model.etity.Role;
@@ -41,7 +42,7 @@ public class RoleServiceImpl implements RoleService {
     public List<RoleDTO> getAllRole() {
         return roleRepository.findAll().stream().map(
                 role -> modelMapper.map(role, RoleDTO.class)
-        ).collect(Collectors.toList());
+        ).toList();
     }
 
     @Override
@@ -50,7 +51,7 @@ public class RoleServiceImpl implements RoleService {
         if (roleOptional.isPresent()) {
             return modelMapper.map(roleOptional.get(), RoleDTO.class);
         } else {
-            throw new RuntimeException("Id quyền không tồn tại trong hệ thống!");
+            throw new MyCustomException("Id quyền không tồn tại trong hệ thống!");
         }
     }
 
@@ -72,7 +73,7 @@ public class RoleServiceImpl implements RoleService {
             role = roleRepository.saveAndFlush(role);
             return modelMapper.map(role, RoleDTO.class);
         } catch (Exception ex) {
-            throw new RuntimeException("Có lỗi xảy ra trong quá trình thêm vai trò mới!");
+            throw new MyCustomException("Có lỗi xảy ra trong quá trình thêm vai trò mới!");
         }
     }
 
@@ -90,21 +91,21 @@ public class RoleServiceImpl implements RoleService {
             role.setPermissions(permissions);
             return modelMapper.map(roleRepository.saveAndFlush(role), RoleDTO.class);
         }
-        throw new RuntimeException("Có lỗi xảy ra trong quá trình cập nhật quyền!");
+        throw new MyCustomException("Có lỗi xảy ra trong quá trình cập nhật quyền!");
     }
 
     @Override
     @Transactional
     public RoleDTO deleteByIdRole(String id) {
         if (!roleRepository.existsById(id)) {
-            throw new RuntimeException("Quyền có id: " + id + "cần xóa không tồn tại trong hệ thống!");
+            throw new MyCustomException("Quyền có id: " + id + "cần xóa không tồn tại trong hệ thống!");
         }
         Optional<Role> roleOptional = roleRepository.findById(id);
         if (roleOptional.isPresent()) {
             roleRepository.deleteById(id);
             return modelMapper.map(roleOptional, RoleDTO.class);
         }
-        throw new RuntimeException("Có lỗi xảy ra trong quá trình xóa quyền!");
+        throw new MyCustomException("Có lỗi xảy ra trong quá trình xóa quyền!");
     }
 
     @Override
@@ -112,12 +113,12 @@ public class RoleServiceImpl implements RoleService {
         List<RoleDTO> roleDTOS = new ArrayList<>();
         for (String id : ids) {
             Optional<Role> optionalRole = roleRepository.findById(id);
-            if(optionalRole.isPresent()){
+            if (optionalRole.isPresent()) {
                 Role role = optionalRole.get();
                 roleDTOS.add(modelMapper.map(role, RoleDTO.class));
                 roleRepository.delete(role);
-            }else {
-                throw new RuntimeException("Có lỗi xảy ra trong quá trình xóa!");
+            } else {
+                throw new MyCustomException("Có lỗi xảy ra trong quá trình xóa!");
             }
         }
         return roleDTOS;
@@ -126,28 +127,27 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Page<Role> filterRole(FilterRoleRequest request, Date dateFrom, Date dateTo) {
         Specification<Role> specification = CustomRoleRepository.filterSpecification(dateFrom, dateTo, request);
-        Page<Role> rolePage = roleRepository.findAll(specification, PageRequest.of(request.getStart(), request.getLimit()));
-        return rolePage;
+        return roleRepository.findAll(specification, PageRequest.of(request.getStart(), request.getLimit()));
     }
 
     private void checkPermissionIsValid(List<String> permissionIds) {
         List<Permission> permissions = buildPermission(permissionIds);
         if (CollectionUtils.isEmpty(permissions)) {
-            throw new RuntimeException("Permission không tồn tại");
+            throw new MyCustomException("Permission không tồn tại");
         }
-        List<String> listIdExists = permissions.stream().map(Permission::getPermissionId).collect(Collectors.toList());
-        List<String> idNotExists = permissionIds.stream().filter(s -> !listIdExists.contains(s)).collect(Collectors.toList());
+        List<String> listIdExists = permissions.stream().map(Permission::getPermissionId).toList();
+        List<String> idNotExists = permissionIds.stream().filter(s -> !listIdExists.contains(s)).toList();
         if (!idNotExists.isEmpty())
-            throw new RuntimeException(String.format("Trong danh sách permision ids có mã không tồn tại trên hệ thống: %s!", idNotExists));
+            throw new MyCustomException(String.format("Trong danh sách permision ids có mã không tồn tại trên hệ thống: %s!", idNotExists));
     }
 
-    private List<Permission> buildPermission(List<String> permissionIds){
+    private List<Permission> buildPermission(List<String> permissionIds) {
         return permissionRepository.findAllById(permissionIds);
     }
 
-    private void validateRoleExist(String id){
+    private void validateRoleExist(String id) {
         boolean isExist = roleRepository.existsById(id);
-        if(!isExist)
-            throw new RuntimeException("Vai trò không tồn tại trên hệ thống");
+        if (!isExist)
+            throw new MyCustomException("Vai trò không tồn tại trên hệ thống");
     }
 }

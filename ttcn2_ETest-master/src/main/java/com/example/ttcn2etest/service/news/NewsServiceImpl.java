@@ -24,8 +24,6 @@ import java.util.stream.Collectors;
 @Service
 public class NewsServiceImpl implements NewsService {
     private final NewsRepository newsRepository;
-
-
     private final ModelMapper modelMapper = new ModelMapper();
 
     public NewsServiceImpl(NewsRepository newsRepository) {

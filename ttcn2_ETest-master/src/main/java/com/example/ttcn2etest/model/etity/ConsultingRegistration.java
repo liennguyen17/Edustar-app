@@ -38,7 +38,7 @@ public class ConsultingRegistration {
     @Column(name = "update_date")
     private Timestamp updateDate;
 
-    public  enum Status{
+    public enum Status {
         CONSULTED, WAITING_FOR_ADVICE   //da dc tu van, cho tu van
     }
 

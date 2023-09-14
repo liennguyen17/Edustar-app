@@ -30,20 +30,20 @@ public class CreateUserRequest {
     @PhoneNumber
     private String phone;
 
-//    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Email không hợp lệ!")
+    //    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Email không hợp lệ!")
     @NotBlank(message = "Email không được để trống!")
     @EmailAnnotation
     private String email;
     @NotBlank(message = "Địa chỉ không được để trống!")
     private String address;
-//    @NotNull(message = "Không được để trống Chỉ định người dùng có là Admin không? Nhập tùy chọn(1: có, 0: không)")
+    //    @NotNull(message = "Không được để trống Chỉ định người dùng có là Admin không? Nhập tùy chọn(1: có, 0: không)")
     private Boolean isSuperAdmin;
-//    @NotBlank(message = "Avatar không được để trống!")
+    //    @NotBlank(message = "Avatar không được để trống!")
     @Size(max = 2000, message = "Link ảnh có độ dài từ 0-2000 ký tự!")
     private String avatar;
     @NotBlank(message = "Vai trò không được để trống!")
     private String roleId;
-//    @NotEmpty(message = "Dịch vụ không để trống!")
+    //    @NotEmpty(message = "Dịch vụ không để trống!")
     private List<Long> services; //"":[1,2,3]
     private boolean isVerified;
 

@@ -11,6 +11,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +53,7 @@ public class ServiceController extends BaseController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> updateService(@Validated @RequestBody ServiceRequest request,
                                     @PathVariable("id") Long id) {
         ServiceDTO response = studyService.updateService(request, id);
@@ -59,12 +61,14 @@ public class ServiceController extends BaseController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> deleteById(@PathVariable Long id) {
         ServiceDTO response = studyService.deleteByIdService(id);
         return buildItemResponse(response);
     }
 
     @DeleteMapping("/delete/all")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> deleteAllId(@RequestBody List<Long> ids) {
         try {
             List<ServiceDTO> response = studyService.deleteAllIdService(ids);
@@ -75,6 +79,7 @@ public class ServiceController extends BaseController {
     }
 
     @PostMapping("/filter")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     public ResponseEntity<?> filter(@Validated @RequestBody FilterServiceRequest request) throws ParseException {
         BigDecimal minPrice = request.getMinPrice();
         BigDecimal maxPrice = request.getMaxPrice();

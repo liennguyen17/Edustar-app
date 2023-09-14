@@ -76,7 +76,7 @@ public class CustomExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = {AuthenticationException.class})
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public BaseResponse handleAuthenticationException(Exception ex){
+    public BaseResponse handleAuthenticationException(Exception ex) {
         BaseResponse response = new BaseResponse();
         response.setFailed(ErrorCodeDefs.TOKEN_REQUIRED, ex.getMessage());
         return response;

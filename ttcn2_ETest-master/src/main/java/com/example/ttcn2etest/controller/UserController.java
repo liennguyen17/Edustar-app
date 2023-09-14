@@ -13,6 +13,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 public class UserController extends BaseController {
     private final UserService userService;
     private final ModelMapper modelMapper = new ModelMapper();
+
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -46,12 +48,14 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> creatUser(@Valid @RequestBody CreateUserRequest request) {
         UserDTO response = userService.createUser(request);
         return buildItemResponse(response);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> updateUser(@Validated @RequestBody UpdateUserRequest request,
                                  @PathVariable("id") Long id) throws ParseException {
         UserDTO response = userService.updateUser(request, id);
@@ -59,12 +63,14 @@ public class UserController extends BaseController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> deleteById(@PathVariable Long id) {
         UserDTO response = userService.deleteByIdUser(id);
         return buildItemResponse(response);
     }
 
     @DeleteMapping("/delete/all")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> deleteAllId(@RequestBody List<Long> ids) {
         try {
             List<UserDTO> response = userService.deleteAllIdUser(ids);
@@ -75,6 +81,7 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/filter")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     public ResponseEntity<?> filterUser(@Validated @RequestBody FilterUserRequest request) throws ParseException {
         Page<User> userPage = userService.filterUser(
                 request,

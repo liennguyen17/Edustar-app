@@ -1,5 +1,6 @@
 package com.example.ttcn2etest.service.document;
 
+import com.example.ttcn2etest.exception.MyCustomException;
 import com.example.ttcn2etest.model.dto.DocumentDTO;
 import com.example.ttcn2etest.model.etity.Document;
 import com.example.ttcn2etest.repository.document.CustomDocumentRepository;
@@ -34,7 +35,7 @@ public class DocumentServiceImpl implements DocumentService {
     public List<DocumentDTO> getAllDocument() {
         return documentRepository.findAll().stream().map(
                 document -> modelMapper.map(document, DocumentDTO.class)
-        ).collect(Collectors.toList());
+        ).toList();
     }
 
     @Override
@@ -43,7 +44,7 @@ public class DocumentServiceImpl implements DocumentService {
         if (documentOptional.isPresent()) {
             return modelMapper.map(documentOptional.get(), DocumentDTO.class);
         } else {
-            throw new RuntimeException("Id tài liệu không tồn tại trong hệ thống!");
+            throw new MyCustomException("Id tài liệu không tồn tại trong hệ thống!");
         }
     }
 
@@ -63,7 +64,7 @@ public class DocumentServiceImpl implements DocumentService {
             document = documentRepository.saveAndFlush(document);
             return modelMapper.map(document, DocumentDTO.class);
         } catch (Exception ex) {
-            throw new RuntimeException("Có lỗi xảy ra trong quá trình thêm tài liệu mới!");
+            throw new MyCustomException("Có lỗi xảy ra trong quá trình thêm tài liệu mới!");
         }
     }
 
@@ -81,21 +82,21 @@ public class DocumentServiceImpl implements DocumentService {
             document.setUpdateDate(new Timestamp(System.currentTimeMillis()));
             return modelMapper.map(documentRepository.saveAndFlush(document), DocumentDTO.class);
         }
-        throw new RuntimeException("Có lỗi xảy ra trong quá trình cập nhật tài liệu!");
+        throw new MyCustomException("Có lỗi xảy ra trong quá trình cập nhật tài liệu!");
     }
 
     @Override
     @Transactional
     public DocumentDTO deleteByIdDocument(Long id) {
         if (!documentRepository.existsById(id)) {
-            throw new RuntimeException("Tài liệu có id: " + id + " cần xóa không tồn tại trong hệ thống!");
+            throw new MyCustomException("Tài liệu có id: " + id + " cần xóa không tồn tại trong hệ thống!");
         }
         Optional<Document> documentOptional = documentRepository.findById(id);
         if (documentOptional.isPresent()) {
             documentRepository.deleteById(id);
             return modelMapper.map(documentOptional, DocumentDTO.class);
         }
-        throw new RuntimeException("Có lỗi xảy ra trong quá trinh xóa tài liệu!");
+        throw new MyCustomException("Có lỗi xảy ra trong quá trinh xóa tài liệu!");
     }
 
     //31ms => 3ptu
@@ -119,7 +120,7 @@ public class DocumentServiceImpl implements DocumentService {
                 documentDTOS.add(modelMapper.map(document, DocumentDTO.class));
                 documentRepository.delete(document);
             } else {
-                throw new RuntimeException("Có lỗi xảy ra trong quá trình xóa danh sách tài liệu!");
+                throw new MyCustomException("Có lỗi xảy ra trong quá trình xóa danh sách tài liệu!");
             }
         }
         return documentDTOS;
@@ -128,7 +129,6 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public Page<Document> filterDocument(FilterDocumentRequest request, Date dateFrom, Date dateTo) {
         Specification<Document> specification = CustomDocumentRepository.filterSpecification(dateFrom, dateTo, request);
-        Page<Document> documentPage = documentRepository.findAll(specification, PageRequest.of(request.getStart(), request.getLimit()));
-        return documentPage;
+        return documentRepository.findAll(specification, PageRequest.of(request.getStart(), request.getLimit()));
     }
 }

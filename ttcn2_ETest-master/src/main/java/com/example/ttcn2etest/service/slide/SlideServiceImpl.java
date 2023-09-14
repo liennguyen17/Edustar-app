@@ -1,5 +1,6 @@
 package com.example.ttcn2etest.service.slide;
 
+import com.example.ttcn2etest.exception.MyCustomException;
 import com.example.ttcn2etest.model.dto.SlideDTO;
 import com.example.ttcn2etest.model.etity.Slide;
 import com.example.ttcn2etest.repository.slide.CustomSlideRepository;
@@ -34,7 +35,7 @@ public class SlideServiceImpl implements SlideService {
     public List<SlideDTO> getAllSlide() {
         return slideRepository.findAll().stream().map(
                 slide -> modelMapper.map(slide, SlideDTO.class)
-        ).collect(Collectors.toList());
+        ).toList();
     }
 
     @Override
@@ -43,7 +44,7 @@ public class SlideServiceImpl implements SlideService {
         if (slideOptional.isPresent()) {
             return modelMapper.map(slideOptional.get(), SlideDTO.class);
         } else {
-            throw new RuntimeException("Id slide không tồn tại trong hệ thống!");
+            throw new MyCustomException("Id slide không tồn tại trong hệ thống!");
         }
     }
 
@@ -60,7 +61,7 @@ public class SlideServiceImpl implements SlideService {
             slide = slideRepository.saveAndFlush(slide);
             return modelMapper.map(slide, SlideDTO.class);
         } catch (Exception ex) {
-            throw new RuntimeException("Có lỗi xảy ra trong quá trình thêm slide mới!");
+            throw new MyCustomException("Có lỗi xảy ra trong quá trình thêm slide mới!");
         }
     }
 
@@ -74,21 +75,21 @@ public class SlideServiceImpl implements SlideService {
             slide.setUpdateDate(new Timestamp(System.currentTimeMillis()));
             return modelMapper.map(slideRepository.saveAndFlush(slide), SlideDTO.class);
         }
-        throw new RuntimeException("Có lỗi xảy ra trong quá trình cập nhật Slide!");
+        throw new MyCustomException("Có lỗi xảy ra trong quá trình cập nhật Slide!");
     }
 
     @Override
     @Transactional
     public SlideDTO deleteByIdService(Long id) {
         if (!slideRepository.existsById(id)) {
-            throw new RuntimeException("Slide có id:" + id + " cần xóa không tồn tại trong hệ thống!");
+            throw new MyCustomException("Slide có id:" + id + " cần xóa không tồn tại trong hệ thống!");
         }
         Optional<Slide> slideOptional = slideRepository.findById(id);
         if (slideOptional.isPresent()) {
             slideRepository.deleteById(id);
             return modelMapper.map(slideOptional, SlideDTO.class);
         }
-        throw new RuntimeException("Có lỗi xảy ra trong quá trình xóa Slide!");
+        throw new MyCustomException("Có lỗi xảy ra trong quá trình xóa Slide!");
     }
 
     @Override
@@ -112,7 +113,7 @@ public class SlideServiceImpl implements SlideService {
                 deletedSlides.add(modelMapper.map(slide, SlideDTO.class));
                 slideRepository.delete(slide);
             } else {
-                throw new RuntimeException("Có lỗi xảy ra trong quá trình xóa danh sách slide!");
+                throw new MyCustomException("Có lỗi xảy ra trong quá trình xóa danh sách slide!");
             }
         }
         return deletedSlides;
@@ -121,7 +122,6 @@ public class SlideServiceImpl implements SlideService {
     @Override
     public Page<Slide> filterService(FilterSlideRequest request, Date dateFrom, Date dateTo) {
         Specification<Slide> specification = CustomSlideRepository.filterSpecification(dateFrom, dateTo, request);
-        Page<Slide> slidePage = slideRepository.findAll(specification, PageRequest.of(request.getStart(), request.getLimit()));
-        return slidePage;
+        return slideRepository.findAll(specification, PageRequest.of(request.getStart(), request.getLimit()));
     }
 }

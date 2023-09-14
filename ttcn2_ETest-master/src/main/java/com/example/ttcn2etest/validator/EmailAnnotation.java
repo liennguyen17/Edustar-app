@@ -14,7 +14,9 @@ import static java.lang.annotation.ElementType.*;
 @Constraint(validatedBy = EmailValidator.class)
 public @interface EmailAnnotation {
     String message() default "Email không đúng định dang!";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 
 

@@ -4,7 +4,6 @@ package com.example.ttcn2etest.email;
 import com.example.ttcn2etest.constant.ErrorCodeDefs;
 import com.example.ttcn2etest.controller.BaseController;
 import com.example.ttcn2etest.request.auth.RegisterRequest;
-import com.example.ttcn2etest.response.BaseItemResponse;
 import com.example.ttcn2etest.response.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,24 +17,20 @@ public class UserRegisterAuthenController extends BaseController {
     private RegisterAuthenService registerAuthenService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> userRegisterAuthenController(@Validated @RequestBody RegisterRequest request){
+    public ResponseEntity<?> userRegisterAuthenController(@Validated @RequestBody RegisterRequest request) {
         registerAuthenService.userRegisterAuthen(request);
 
         return buildItemResponse("Đăng ký thành công. Vui lòng kiểm tra email để xác thực!");
     }
 
     @GetMapping("/verify")
-    public ResponseEntity<?> verifyUser(@RequestParam("token") String token){
-
-
+    public ResponseEntity<?> verifyUser(@RequestParam("email-verification") String token) {
         boolean verified = registerAuthenService.verifyUser(token);
-        if(verified){
+        if (verified) {
             return buildItemResponse("Xác thực thành công!");
-        }else{
+        } else {
             BaseResponse response = new BaseResponse();
-//            BaseItemResponse response = new BaseItemResponse<>();
-//            response.setData("Xác thực thất bại");
-            response.setFailed(ErrorCodeDefs.SERVER_ERROR,"Xác thực thất bại!");
+            response.setFailed(ErrorCodeDefs.SERVER_ERROR, "Xác thực thất bại!");
             response.setSuccess(false);
             response.setStatusCode(500);
             return ResponseEntity.ok(response);

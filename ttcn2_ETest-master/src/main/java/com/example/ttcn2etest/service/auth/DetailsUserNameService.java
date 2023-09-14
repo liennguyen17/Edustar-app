@@ -25,7 +25,7 @@ public class DetailsUserNameService {
         this.userRepository = userRepository;
     }
 
-    public UserDTO getUserFromToken(String token){
+    public UserDTO getUserFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
@@ -33,9 +33,9 @@ public class DetailsUserNameService {
 
         Long userId = Long.parseLong(claims.getSubject());
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
-        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-        return userDTO;
+        return modelMapper.map(user, UserDTO.class);
+
     }
 }

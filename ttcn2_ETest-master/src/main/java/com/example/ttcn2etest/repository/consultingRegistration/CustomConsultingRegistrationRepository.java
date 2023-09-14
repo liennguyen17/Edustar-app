@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public class CustomConsultingRegistrationRepository {
     public static Specification<ConsultingRegistration> filterSpecification(Date dateFrom, Date dateTo,
-                                                                            FilterConsultingRegistrationRequest request){
+                                                                            FilterConsultingRegistrationRequest request) {
         return ((((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (dateFrom != null && dateTo != null) {

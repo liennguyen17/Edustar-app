@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, String>, JpaSpecificationExecutor<Role> {
-     Role findByRoleId(String roleId);
+    Role findByRoleId(String roleId);
 }

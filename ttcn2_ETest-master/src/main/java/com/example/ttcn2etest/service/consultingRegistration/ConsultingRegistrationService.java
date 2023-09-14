@@ -12,10 +12,16 @@ import java.util.List;
 
 public interface ConsultingRegistrationService {
     List<ConsultingRegistrationDTO> getAllConsultingRegistration();
+
     ConsultingRegistrationDTO getByIdConsultingRegistration(Long id);
+
     ConsultingRegistrationDTO createConsultingRegistration(CreateConsultingRegistrationRequest request);
+
     ConsultingRegistrationDTO updateConsultingRegistration(UpdateConsultingRegistrationRequest request, Long id);
+
     ConsultingRegistrationDTO deleteByIdConsultingRegistration(Long id);
+
     List<ConsultingRegistrationDTO> deleteAllConsultingRegistration(List<Long> ids);
+
     Page<ConsultingRegistration> filterConsultingRegistration(FilterConsultingRegistrationRequest request, Date dateFrom, Date dateTo);
 }

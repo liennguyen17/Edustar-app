@@ -1,5 +1,6 @@
 package com.example.ttcn2etest.service.serviceStudy;
 
+import com.example.ttcn2etest.exception.MyCustomException;
 import com.example.ttcn2etest.model.dto.ServiceDTO;
 import com.example.ttcn2etest.repository.service.CustomServiceRepository;
 import com.example.ttcn2etest.repository.service.ServiceRepository;
@@ -19,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class StudyServiceImpl implements StudyService {
@@ -34,7 +34,7 @@ public class StudyServiceImpl implements StudyService {
     public List<ServiceDTO> getAllService() {
         return serviceRepository.findAll().stream().map(
                 service -> modelMapper.map(service, ServiceDTO.class)
-        ).collect(Collectors.toList());
+        ).toList();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class StudyServiceImpl implements StudyService {
         if (service.isPresent()) {
             return modelMapper.map(service.get(), ServiceDTO.class);
         } else {
-            throw new RuntimeException("ID của dịch vụ không tồn tại trong hệ thống!");
+            throw new MyCustomException("ID của dịch vụ không tồn tại trong hệ thống!");
         }
     }
 
@@ -73,7 +73,7 @@ public class StudyServiceImpl implements StudyService {
             service = serviceRepository.saveAndFlush(service);
             return modelMapper.map(service, ServiceDTO.class);
         } catch (Exception ex) {
-            throw new RuntimeException("Có lỗi xảy ra trong quá trình tạo dịch vụ học!");
+            throw new MyCustomException("Có lỗi xảy ra trong quá trình tạo dịch vụ học!");
         }
     }
 
@@ -100,7 +100,7 @@ public class StudyServiceImpl implements StudyService {
             service.setUpdateDate(new Timestamp(System.currentTimeMillis()));
             return modelMapper.map(serviceRepository.save(service), ServiceDTO.class);
         }
-        throw new RuntimeException("Có lỗi xảy ra trong quá trình cập nhật dịch vụ!");
+        throw new MyCustomException("Có lỗi xảy ra trong quá trình cập nhật dịch vụ!");
     }
 
     @Override
@@ -114,7 +114,7 @@ public class StudyServiceImpl implements StudyService {
             serviceRepository.deleteById(id);
             return modelMapper.map(serviceOptional, ServiceDTO.class);
         }
-        throw new RuntimeException("Có lỗi xảy ra trong quá trình xóa dịch vụ!");
+        throw new MyCustomException("Có lỗi xảy ra trong quá trình xóa dịch vụ!");
     }
 
     @Override
@@ -130,7 +130,6 @@ public class StudyServiceImpl implements StudyService {
     @Override
     public Page<com.example.ttcn2etest.model.etity.Service> filterService(FilterServiceRequest request, Date dateFrom, Date dateTo, BigDecimal maxPrice, BigDecimal minPrice) {
         Specification<com.example.ttcn2etest.model.etity.Service> specification = CustomServiceRepository.filterSpecification(dateFrom, dateTo, maxPrice, minPrice, request);
-        Page<com.example.ttcn2etest.model.etity.Service> servicePage = serviceRepository.findAll(specification, PageRequest.of(request.getStart(), request.getLimit()));
-        return servicePage;
+        return serviceRepository.findAll(specification, PageRequest.of(request.getStart(), request.getLimit()));
     }
 }

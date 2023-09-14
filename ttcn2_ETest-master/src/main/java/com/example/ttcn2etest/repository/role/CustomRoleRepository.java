@@ -15,13 +15,13 @@ import java.util.List;
 @Repository
 public class CustomRoleRepository {
     public static Specification<Role> filterSpecification(Date dateFrom, Date dateTo,
-                                                          FilterRoleRequest request){
+                                                          FilterRoleRequest request) {
         return ((((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            if(dateFrom != null && dateTo != null){
+            if (dateFrom != null && dateTo != null) {
                 predicates.add(criteriaBuilder.between(root.get("createdDate"), dateFrom, dateTo));
             }
-            if(StringUtils.hasText(request.getName())){
+            if (StringUtils.hasText(request.getName())) {
                 predicates.add(criteriaBuilder.like(root.get("name"), "%" + request.getName() + "%"));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

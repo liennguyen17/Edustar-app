@@ -1,5 +1,6 @@
 package com.example.ttcn2etest.service.consultingRegistration;
 
+import com.example.ttcn2etest.exception.MyCustomException;
 import com.example.ttcn2etest.model.dto.ConsultingRegistrationDTO;
 import com.example.ttcn2etest.model.etity.ConsultingRegistration;
 import com.example.ttcn2etest.repository.consultingRegistration.ConsultingRegistrationRepository;
@@ -19,9 +20,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 @Service
-public class ConsultingRegistrationServiceImpl implements ConsultingRegistrationService{
+public class ConsultingRegistrationServiceImpl implements ConsultingRegistrationService {
     private final ConsultingRegistrationRepository consultingRegistrationRepository;
     private final ModelMapper modelMapper = new ModelMapper();
 
@@ -33,22 +34,22 @@ public class ConsultingRegistrationServiceImpl implements ConsultingRegistration
     public List<ConsultingRegistrationDTO> getAllConsultingRegistration() {
         return consultingRegistrationRepository.findAll().stream().map(
                 consultingRegistration -> modelMapper.map(consultingRegistration, ConsultingRegistrationDTO.class)
-        ).collect(Collectors.toList());
+        ).toList();
     }
 
     @Override
     public ConsultingRegistrationDTO getByIdConsultingRegistration(Long id) {
         Optional<ConsultingRegistration> consultingRegistration = consultingRegistrationRepository.findById(id);
-        if(consultingRegistration.isPresent()){
+        if (consultingRegistration.isPresent()) {
             return modelMapper.map(consultingRegistration.get(), ConsultingRegistrationDTO.class);
-        }else {
-            throw new RuntimeException("ID không tồn tại trong hệ thống!");
+        } else {
+            throw new MyCustomException("ID không tồn tại trong hệ thống!");
         }
     }
 
     @Override
     public ConsultingRegistrationDTO createConsultingRegistration(CreateConsultingRegistrationRequest request) {
-        try{
+        try {
             ConsultingRegistration consultingRegistration = ConsultingRegistration.builder()
                     .name(request.getName())
                     .phone(request.getPhone())
@@ -60,8 +61,8 @@ public class ConsultingRegistrationServiceImpl implements ConsultingRegistration
                     .build();
             consultingRegistration = consultingRegistrationRepository.saveAndFlush(consultingRegistration);
             return modelMapper.map(consultingRegistration, ConsultingRegistrationDTO.class);
-        }catch (Exception ex){
-            throw new RuntimeException("Có lỗi xảy ra trong quá trình thêm  mới!");
+        } catch (Exception ex) {
+            throw new MyCustomException("Có lỗi xảy ra trong quá trình thêm  mới!");
         }
     }
 
@@ -69,7 +70,7 @@ public class ConsultingRegistrationServiceImpl implements ConsultingRegistration
     @Transactional
     public ConsultingRegistrationDTO updateConsultingRegistration(UpdateConsultingRegistrationRequest request, Long id) {
         Optional<ConsultingRegistration> consultingRegistrationOptional = consultingRegistrationRepository.findById(id);
-        if(consultingRegistrationOptional.isPresent()){
+        if (consultingRegistrationOptional.isPresent()) {
             ConsultingRegistration consultingRegistration = consultingRegistrationOptional.get();
             consultingRegistration.setName(request.getName());
             consultingRegistration.setPhone(request.getPhone());
@@ -79,34 +80,34 @@ public class ConsultingRegistrationServiceImpl implements ConsultingRegistration
             consultingRegistration.setUpdateDate(new Timestamp(System.currentTimeMillis()));
             return modelMapper.map(consultingRegistration, ConsultingRegistrationDTO.class);
         }
-        throw new RuntimeException("Có lỗi xảy ra trong quá trình cập nhật!");
+        throw new MyCustomException("Có lỗi xảy ra trong quá trình cập nhật!");
     }
 
     @Override
     @Transactional
     public ConsultingRegistrationDTO deleteByIdConsultingRegistration(Long id) {
-        if(!consultingRegistrationRepository.existsById(id)){
-            throw new RuntimeException("Id: " + id + " cần xóa không tồn tại trong hệ thống!");
+        if (!consultingRegistrationRepository.existsById(id)) {
+            throw new MyCustomException("Id: " + id + " cần xóa không tồn tại trong hệ thống!");
         }
         Optional<ConsultingRegistration> consultingRegistrationOptional = consultingRegistrationRepository.findById(id);
-        if(consultingRegistrationOptional.isPresent()){
+        if (consultingRegistrationOptional.isPresent()) {
             consultingRegistrationRepository.deleteById(id);
             return modelMapper.map(consultingRegistrationOptional, ConsultingRegistrationDTO.class);
         }
-        throw new RuntimeException("Có lỗi xảy ra trong quá trinh xóa!");
+        throw new MyCustomException("Có lỗi xảy ra trong quá trinh xóa!");
     }
 
     @Override
     public List<ConsultingRegistrationDTO> deleteAllConsultingRegistration(List<Long> ids) {
         List<ConsultingRegistrationDTO> consultingRegistrationDTOS = new ArrayList<>();
-        for(Long id : ids){
+        for (Long id : ids) {
             Optional<ConsultingRegistration> optionalConsultingRegistration = consultingRegistrationRepository.findById(id);
-            if(optionalConsultingRegistration.isPresent()){
+            if (optionalConsultingRegistration.isPresent()) {
                 ConsultingRegistration consultingRegistration = optionalConsultingRegistration.get();
                 consultingRegistrationDTOS.add(modelMapper.map(consultingRegistration, ConsultingRegistrationDTO.class));
                 consultingRegistrationRepository.delete(consultingRegistration);
-            }else {
-                throw new RuntimeException("Có lỗi xảy ra trong quá trình xóa danh sách đăng ký tư vấn!");
+            } else {
+                throw new MyCustomException("Có lỗi xảy ra trong quá trình xóa danh sách đăng ký tư vấn!");
             }
 
         }

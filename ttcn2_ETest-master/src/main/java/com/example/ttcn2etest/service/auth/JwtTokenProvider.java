@@ -20,21 +20,21 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 public class JwtTokenProvider {
+    private static final String AUTHORITIES_KEY = "XAUTHOR";
     @Value("${jwt.jwtSecret}")
     private String jwtSecret;
     @Value("${jwt.jwtExpirationMs}")
     private Long jwtExpirationMs;
     @Value("${jwt.jwtRefreshExpirationMs}")
     private Long refreshTokenDurationsMs;
-    private static final String AUTHORITIES_KEY = "XAUTHOR";
 
     @PostConstruct
-    public void init(){
+    public void init() {
         jwtSecret = Base64.getEncoder().encodeToString(jwtSecret.getBytes());
-        log.info("jwt secret: {}",jwtSecret);
+        log.info("jwt secret: {}", jwtSecret);
     }
 
-    public String generateTokenWithAuthorities(Authentication authentication){
+    public String generateTokenWithAuthorities(Authentication authentication) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
@@ -51,34 +51,34 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public UsernamePasswordAuthenticationToken getUserInfoFromJWT(String token){
+    public UsernamePasswordAuthenticationToken getUserInfoFromJWT(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .getBody();
-        if(claims.get(AUTHORITIES_KEY) != null && claims.get(AUTHORITIES_KEY) instanceof String authoritiesStr && !Strings.isBlank(authoritiesStr)){
+        if (claims.get(AUTHORITIES_KEY) != null && claims.get(AUTHORITIES_KEY) instanceof String authoritiesStr && !Strings.isBlank(authoritiesStr)) {
             Collection authorities = Arrays.stream(authoritiesStr.split(","))
                     .map(SimpleGrantedAuthority::new)
                     .toList();
-            return new UsernamePasswordAuthenticationToken(claims.getSubject(), "",authorities);
-        }else {
-            return new UsernamePasswordAuthenticationToken(claims.getSubject(),"", new ArrayList<>());
+            return new UsernamePasswordAuthenticationToken(claims.getSubject(), "", authorities);
+        } else {
+            return new UsernamePasswordAuthenticationToken(claims.getSubject(), "", new ArrayList<>());
         }
     }
 
-    public boolean validateJwtToken(String authToken){
-        try{
+    public boolean validateJwtToken(String authToken) {
+        try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
-        }catch (SignatureException e){
+        } catch (SignatureException e) {
             log.error("Invalid JWT signature: {}", e.getMessage());
-        }catch (MalformedJwtException e){
+        } catch (MalformedJwtException e) {
             log.error("Invalid JWT token: {}", e.getMessage());
-        }catch (ExpiredJwtException e){
+        } catch (ExpiredJwtException e) {
             log.error("JWT token is expired: {}", e.getMessage());
-        }catch (UnsupportedJwtException e){
+        } catch (UnsupportedJwtException e) {
             log.error("JWT token is unsupported: {}");
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             log.error("JWT claims string is empty: {}", e.getMessage());
         }
         throw new JwtTokenInvalid(ErrorCodeDefs.getErrMsg(ErrorCodeDefs.TOKEN_INVALID));

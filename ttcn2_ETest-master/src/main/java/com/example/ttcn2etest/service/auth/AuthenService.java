@@ -6,6 +6,7 @@ import com.example.ttcn2etest.response.LoginResponse;
 
 public interface AuthenService {
     LoginResponse authenticateUser(LoginRequest loginRequest);
+
     void registerUser(RegisterRequest signUpRequest);
 
 }

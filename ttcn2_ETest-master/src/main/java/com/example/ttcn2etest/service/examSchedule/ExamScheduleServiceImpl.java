@@ -1,5 +1,6 @@
 package com.example.ttcn2etest.service.examSchedule;
 
+import com.example.ttcn2etest.exception.MyCustomException;
 import com.example.ttcn2etest.model.dto.ExamScheduleDTO;
 import com.example.ttcn2etest.model.etity.ExamSchedule;
 import com.example.ttcn2etest.repository.examSchedule.CustomExamScheduleRepository;
@@ -7,7 +8,6 @@ import com.example.ttcn2etest.repository.examSchedule.ExamScheduleRepository;
 import com.example.ttcn2etest.request.examSchedule.CreateExamScheduleRequest;
 import com.example.ttcn2etest.request.examSchedule.FilterExamScheduleRequest;
 import com.example.ttcn2etest.request.examSchedule.UpdateExamScheduleRequest;
-import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,10 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ExamScheduleServiceImpl implements ExamScheduleService {
@@ -34,7 +32,7 @@ public class ExamScheduleServiceImpl implements ExamScheduleService {
     public List<ExamScheduleDTO> getALLExamSchedule() {
         return examScheduleRepository.findAll().stream().map(
                 examSchedule -> modelMapper.map(examSchedule, ExamScheduleDTO.class)
-        ).collect(Collectors.toList());
+        ).toList();
     }
 
     @Override
@@ -43,7 +41,7 @@ public class ExamScheduleServiceImpl implements ExamScheduleService {
         if (examScheduleOptional.isPresent()) {
             return modelMapper.map(examScheduleOptional.get(), ExamScheduleDTO.class);
         } else {
-            throw new RuntimeException("Id không tồn tại trong hệ thống!");
+            throw new MyCustomException("Id không tồn tại trong hệ thống!");
         }
 
     }
@@ -69,14 +67,13 @@ public class ExamScheduleServiceImpl implements ExamScheduleService {
             examSchedule = examScheduleRepository.saveAndFlush(examSchedule);
             return modelMapper.map(examSchedule, ExamScheduleDTO.class);
         } catch (Exception ex) {
-            throw new RuntimeException("Có lỗi xảy ra trong quá trình thêm mới!");
+            throw new MyCustomException("Có lỗi xảy ra trong quá trình thêm mới!");
         }
     }
 
     @Override
     public ExamScheduleDTO updateExamSchedule(UpdateExamScheduleRequest request, Long id) {
         Optional<ExamSchedule> examScheduleOptional = examScheduleRepository.findById(id);
-//        String examRegistrationRecordsJson = new Gson().toJson(request.getExamRegistrationRecords());
         if (examScheduleOptional.isPresent()) {
             ExamSchedule examSchedule = examScheduleOptional.get();
             examSchedule.setAreaId(request.getAreaId());
@@ -92,20 +89,20 @@ public class ExamScheduleServiceImpl implements ExamScheduleService {
             examSchedule.setUpdateDate(new Timestamp(System.currentTimeMillis()));
             return modelMapper.map(examScheduleRepository.saveAndFlush(examSchedule), ExamScheduleDTO.class);
         }
-        throw new RuntimeException("Có lỗi xảy ra trong quá trình cập nhât!");
+        throw new MyCustomException("Có lỗi xảy ra trong quá trình cập nhât!");
     }
 
     @Override
     public ExamScheduleDTO deleteByIdExamSchedule(Long id) {
         if (!examScheduleRepository.existsById(id)) {
-            throw new RuntimeException("Id: \"+id+\" cần xóa không tồn tại trong hệ thống!");
+            throw new MyCustomException("Id: "+id+" cần xóa không tồn tại trong hệ thống!");
         }
         Optional<ExamSchedule> examScheduleOptional = examScheduleRepository.findById(id);
         if (examScheduleOptional.isPresent()) {
             examScheduleRepository.deleteById(id);
             return modelMapper.map(examScheduleOptional, ExamScheduleDTO.class);
         }
-        throw new RuntimeException("Có lỗi xảy ra trong quá trinh xóa!");
+        throw new MyCustomException("Có lỗi xảy ra trong quá trinh xóa!");
     }
 
     @Override
@@ -118,7 +115,7 @@ public class ExamScheduleServiceImpl implements ExamScheduleService {
                 examScheduleDTOS.add(modelMapper.map(examSchedule, ExamScheduleDTO.class));
                 examScheduleRepository.delete(examSchedule);
             } else {
-                throw new RuntimeException("Có lỗi xảy ra trong quá trình xóa danh sách lịch ôn tập!");
+                throw new MyCustomException("Có lỗi xảy ra trong quá trình xóa danh sách lịch ôn tập!");
             }
         }
         return examScheduleDTOS;
@@ -127,7 +124,6 @@ public class ExamScheduleServiceImpl implements ExamScheduleService {
     @Override
     public Page<ExamSchedule> filterExamSchedule(FilterExamScheduleRequest request) {
         Specification<ExamSchedule> specification = CustomExamScheduleRepository.filterSpecification(request);
-        Page<ExamSchedule> examSchedules = examScheduleRepository.findAll(specification, PageRequest.of(request.getStart(), request.getLimit()));
-        return examSchedules;
+        return examScheduleRepository.findAll(specification, PageRequest.of(request.getStart(), request.getLimit()));
     }
 }

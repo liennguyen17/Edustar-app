@@ -18,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 @Configuration
@@ -72,7 +71,6 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/user/auth/**").permitAll()
-                .requestMatchers("/test/**").authenticated()
                 .requestMatchers(request -> {
                     if (request.getMethod().equals(HttpMethod.GET.toString())) {
                         return new RegexRequestMatcher("/(document|news|slide|service|display|exam/schedule|...)/(all|\\d+)", null).matches(request);

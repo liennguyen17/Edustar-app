@@ -18,7 +18,7 @@ public class DetailsUserNameController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<UserDTO> getUserProfile(@RequestHeader("Authorization") String token){
+    public ResponseEntity<UserDTO> getUserProfile(@RequestHeader("Authorization") String token) {
         String jwtToken = token.substring(7);
         UserDTO userDTO = detailsUserNameService.getUserFromToken(jwtToken);
         return ResponseEntity.ok(userDTO);

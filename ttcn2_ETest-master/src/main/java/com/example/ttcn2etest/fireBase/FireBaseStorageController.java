@@ -15,6 +15,7 @@ import java.io.IOException;
 @RequestMapping("/file")
 public class FireBaseStorageController extends BaseController {
     private final FirebaseStorageService storageService;
+
     public FireBaseStorageController(FirebaseStorageService storageService) {
         this.storageService = storageService;
     }

@@ -25,19 +25,17 @@ public class UpdateUserRequest {
     @DateValidateAnnotation(message = "Định dạng ngày tháng phải là dd/mm/yyyy")
     private String dateOfBirth;
     @NotBlank(message = "Số điện thoại không được để trống!")
-    @PhoneNumber(message = "Số điện thoại không hợp lệ!")
+    @PhoneNumber
     private String phone;
     @NotBlank(message = "Email không được để trống!")
     @EmailAnnotation
     private String email;
     @NotBlank(message = "Địa chỉ không được để trống!")
     private String address;
-//    @NotNull(message = "Không được để trống Chỉ định người dùng có là Admin không? Nhập tùy chọn(1: có, 0: không)")
-    private Boolean isSuperAdmin = false;
-//    @NotBlank(message = "Avatar không được để trống!")
-    @Size(max = 1000)
+    //    @NotNull(message = "Không được để trống Chỉ định người dùng có là Admin không? Nhập tùy chọn(1: có, 0: không)")
+    private Boolean isSuperAdmin;
+    @Size(max = 2000, message = "Link ảnh có độ dài từ 0-2000 ký tự!")
     private String avatar;
-
     private String roleId;
     private List<Long> services;
     private boolean isVerified;

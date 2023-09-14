@@ -12,6 +12,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,12 +46,14 @@ public class ConsultingRegistrationController extends BaseController {
     }
 
     @PostMapping("")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> createConsultingRegistration(@Validated @RequestBody CreateConsultingRegistrationRequest request) {
         ConsultingRegistrationDTO response = consultingRegistrationService.createConsultingRegistration(request);
         return buildItemResponse(response);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> updateConsultingRegistration(@Validated @RequestBody UpdateConsultingRegistrationRequest request,
                                                    @PathVariable("id") Long id) {
         ConsultingRegistrationDTO response = consultingRegistrationService.updateConsultingRegistration(request, id);
@@ -58,12 +61,14 @@ public class ConsultingRegistrationController extends BaseController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> deleteByIdConsultingRegistration(@PathVariable Long id) {
         ConsultingRegistrationDTO response = consultingRegistrationService.deleteByIdConsultingRegistration(id);
         return buildItemResponse(response);
     }
 
     @DeleteMapping("/delete/all")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> deleteAllConsultingRegistration(@RequestBody List<Long> ids) {
         try {
             List<ConsultingRegistrationDTO> response = consultingRegistrationService.deleteAllConsultingRegistration(ids);
@@ -74,6 +79,7 @@ public class ConsultingRegistrationController extends BaseController {
     }
 
     @PostMapping("/filter")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     public ResponseEntity<?> filterConsultingRegistration(@Validated @RequestBody FilterConsultingRegistrationRequest request) throws ParseException {
         Page<ConsultingRegistration> consultingRegistrationPage = consultingRegistrationService.filterConsultingRegistration(
                 request,

@@ -12,6 +12,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +53,7 @@ public class SlideController extends BaseController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> update(@Validated @RequestBody UpdateSlideRequest request,
                              @PathVariable("id") Long id) {
         SlideDTO response = slideService.update(request, id);
@@ -75,6 +77,7 @@ public class SlideController extends BaseController {
     }
 
     @PostMapping("/filter")
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     public ResponseEntity<?> filter(@Validated @RequestBody FilterSlideRequest request) throws ParseException {
         Page<Slide> slidePage = slideService.filterService(
                 request,

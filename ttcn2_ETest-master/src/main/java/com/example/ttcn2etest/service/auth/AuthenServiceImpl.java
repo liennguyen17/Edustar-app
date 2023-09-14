@@ -1,5 +1,6 @@
 package com.example.ttcn2etest.service.auth;
 
+import com.example.ttcn2etest.exception.MyCustomException;
 import com.example.ttcn2etest.model.UserDetailsImpl;
 import com.example.ttcn2etest.model.etity.Role;
 import com.example.ttcn2etest.model.etity.User;
@@ -40,7 +41,7 @@ public class AuthenServiceImpl implements AuthenService {
     @Override
     public LoginResponse authenticateUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = jwtTokenProvider.generateTokenWithAuthorities(authentication);
@@ -63,13 +64,13 @@ public class AuthenServiceImpl implements AuthenService {
     @Override
     public void registerUser(RegisterRequest signUpRequest) {
         if (userRepository.existsAllByUsername(signUpRequest.getUsername())) {
-            throw new RuntimeException("Tên tài khoản đã tồn tại!");
+            throw new MyCustomException("Tên tài khoản đã tồn tại!");
         }
         if (userRepository.existsAllByEmail(signUpRequest.getEmail())) {
-            throw new RuntimeException("Email đã tồn tại trong hệ thống!");
+            throw new MyCustomException("Email đã tồn tại trong hệ thống!");
         }
         Role customerRole = roleRepository.findByRoleId("CUSTOMER");
-        if(customerRole == null){
+        if (customerRole == null) {
             customerRole = new Role();
             customerRole.setRoleId("CUSTOMER");
             customerRole = roleRepository.save(customerRole);

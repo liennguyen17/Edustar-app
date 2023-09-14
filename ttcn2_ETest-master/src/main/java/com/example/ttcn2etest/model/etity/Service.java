@@ -73,6 +73,8 @@ public class Service {
     private Timestamp createdDate;
     @Column(name = "update_date")
     private Timestamp updateDate;
+    @ManyToMany(mappedBy = "services")
+    private Collection<User> users;
 
     public enum TypeService {
         EDUCATION_PROGRAM, REVIEW_LESSON, COURSE, NO_SERVICE
@@ -81,8 +83,5 @@ public class Service {
     public enum Learn {
         ONLINE, OFFLINE, ONLINE_AND_OFFLINE
     }
-
-    @ManyToMany(mappedBy = "services")
-    private Collection<User> users;
 
 }

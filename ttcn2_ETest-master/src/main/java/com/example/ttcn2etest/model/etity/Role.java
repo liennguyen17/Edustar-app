@@ -37,7 +37,7 @@ public class Role {
 
     @OneToMany(mappedBy = "role")
     private Set<User> users;
-//
+    //
     @ManyToMany
     @JoinTable(
             name = "roles_permissions",
