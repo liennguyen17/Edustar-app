@@ -14,16 +14,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/exam/schedule")
 public class ExamScheduleController extends BaseController {
     private final ExamScheduleService examScheduleService;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public ExamScheduleController(ExamScheduleService examScheduleService) {
+    public ExamScheduleController(ExamScheduleService examScheduleService, ModelMapper modelMapper) {
         this.examScheduleService = examScheduleService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/all")

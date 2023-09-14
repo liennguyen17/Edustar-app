@@ -18,16 +18,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/display")
 public class DisplayManagerController extends BaseController {
     private final DisplayService displayService;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public DisplayManagerController(DisplayService displayService) {
+    public DisplayManagerController(DisplayService displayService, ModelMapper modelMapper) {
         this.displayService = displayService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/all")

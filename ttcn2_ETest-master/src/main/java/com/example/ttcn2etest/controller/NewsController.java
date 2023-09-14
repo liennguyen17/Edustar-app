@@ -18,16 +18,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/news")
 public class NewsController extends BaseController {
     private final NewsService newsService;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public NewsController(NewsService newsService) {
+    public NewsController(NewsService newsService, ModelMapper modelMapper) {
         this.newsService = newsService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/all")

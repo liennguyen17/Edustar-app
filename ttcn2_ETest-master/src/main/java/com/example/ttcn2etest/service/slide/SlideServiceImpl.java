@@ -20,15 +20,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class SlideServiceImpl implements SlideService {
     private final SlideRepository slideRepository;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public SlideServiceImpl(SlideRepository slideRepository) {
+    public SlideServiceImpl(SlideRepository slideRepository, ModelMapper modelMapper) {
         this.slideRepository = slideRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override

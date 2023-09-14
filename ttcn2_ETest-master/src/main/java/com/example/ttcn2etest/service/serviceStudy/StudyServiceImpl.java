@@ -24,10 +24,11 @@ import java.util.Optional;
 @Service
 public class StudyServiceImpl implements StudyService {
     private final ServiceRepository serviceRepository;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public StudyServiceImpl(ServiceRepository serviceRepository) {
+    public StudyServiceImpl(ServiceRepository serviceRepository, ModelMapper modelMapper) {
         this.serviceRepository = serviceRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override

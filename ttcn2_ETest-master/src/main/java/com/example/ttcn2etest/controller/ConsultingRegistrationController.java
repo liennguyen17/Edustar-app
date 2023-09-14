@@ -23,10 +23,11 @@ import java.util.List;
 @RequestMapping("/consulting/registration")
 public class ConsultingRegistrationController extends BaseController {
     private final ConsultingRegistrationService consultingRegistrationService;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public ConsultingRegistrationController(ConsultingRegistrationService consultingRegistrationService) {
+    public ConsultingRegistrationController(ConsultingRegistrationService consultingRegistrationService, ModelMapper modelMapper) {
         this.consultingRegistrationService = consultingRegistrationService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/all")

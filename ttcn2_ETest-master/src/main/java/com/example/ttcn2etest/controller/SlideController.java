@@ -18,16 +18,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/slide")
 public class SlideController extends BaseController {
     private final SlideService slideService;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public SlideController(SlideService slideService) {
+    public SlideController(SlideService slideService, ModelMapper modelMapper) {
         this.slideService = slideService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/all")

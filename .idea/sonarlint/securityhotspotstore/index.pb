@@ -147,12 +147,6 @@ Q.idea/sonarlint/securityhotspotstore/a/3/a36b6360629418fddcc188f33f8b711f1335ab
 Q.idea/sonarlint/securityhotspotstore/2/d/2db96c3578738aff5d6fef543ddc8825a6ba4487,5\c\5c1136c0fed82e0a02f881ec8fe50b0f6e49c77f
 Å
 Q.idea/sonarlint/securityhotspotstore/2/f/2fed6f061f2fc8217ea5fceae321b910627bc364,c\d\cdffe95bf948a39f8a655bf59155fa50b4cf1f8b
-ä
-Zttcn2_ETest-master/src/main/java/com/example/ttcn2etest/controller/DocumentController.java,8\1\81c580157ca5303c0433b3132c5fb6b7ba829eab
-Ü
-Vttcn2_ETest-master/src/main/java/com/example/ttcn2etest/controller/NewsController.java,3\0\3032f7bbdc07e1ed3157003ce11e9b9c66ad5369
-Ü
-Vttcn2_ETest-master/src/main/java/com/example/ttcn2etest/controller/RoleController.java,0\2\02187531509ee41c9fd164f6f49132ab20a7f935
 Ö
 Uttcn2_ETest-master/src/main/java/com/example/ttcn2etest/service/user/UserService.java,f\5\f5aa8c9af341d660d4e59ed8f2b229328ce7d468
 ï

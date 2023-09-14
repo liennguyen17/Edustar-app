@@ -24,18 +24,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
     private final PermissionRepository permissionRepository;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public RoleServiceImpl(RoleRepository roleRepository, PermissionRepository permissionRepository) {
+    public RoleServiceImpl(RoleRepository roleRepository, PermissionRepository permissionRepository, ModelMapper modelMapper) {
         this.roleRepository = roleRepository;
         this.permissionRepository = permissionRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override

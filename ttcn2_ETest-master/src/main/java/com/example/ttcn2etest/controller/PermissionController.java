@@ -5,7 +5,6 @@ import com.example.ttcn2etest.request.permission.CreatePermissionRequest;
 import com.example.ttcn2etest.request.permission.UpdatePermissionRequest;
 import com.example.ttcn2etest.service.permission.PermissionService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +15,11 @@ import java.util.List;
 @RequestMapping("/permission")
 public class PermissionController extends BaseController {
     private final PermissionService permissionService;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public PermissionController(PermissionService permissionService) {
+    public PermissionController(PermissionService permissionService, ModelMapper modelMapper) {
         this.permissionService = permissionService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/all")

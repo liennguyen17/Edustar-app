@@ -1,5 +1,6 @@
 package com.example.ttcn2etest.service.news;
 
+import com.example.ttcn2etest.exception.MyCustomException;
 import com.example.ttcn2etest.model.dto.NewsDTO;
 import com.example.ttcn2etest.model.etity.News;
 import com.example.ttcn2etest.repository.news.CustomNewsRepository;
@@ -19,22 +20,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class NewsServiceImpl implements NewsService {
     private final NewsRepository newsRepository;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public NewsServiceImpl(NewsRepository newsRepository) {
+    public NewsServiceImpl(NewsRepository newsRepository, ModelMapper modelMapper) {
         this.newsRepository = newsRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
     public List<NewsDTO> getAllNews() {
         return newsRepository.findAll().stream().map(
                 news -> modelMapper.map(news, NewsDTO.class)
-        ).collect(Collectors.toList());
+        ).toList();
     }
 
     @Override
@@ -43,7 +44,7 @@ public class NewsServiceImpl implements NewsService {
         if (newsOptional.isPresent()) {
             return modelMapper.map(newsOptional.get(), NewsDTO.class);
         } else {
-            throw new RuntimeException("Id tin tức không tồn tại trong hệ thống!");
+            throw new MyCustomException("Id tin tức không tồn tại trong hệ thống!");
         }
     }
 
@@ -62,7 +63,7 @@ public class NewsServiceImpl implements NewsService {
             news = newsRepository.saveAndFlush(news);
             return modelMapper.map(news, NewsDTO.class);
         } catch (Exception ex) {
-            throw new RuntimeException("Có lỗi xảy ra trong quá trình thêm tin tức mới!");
+            throw new MyCustomException("Có lỗi xảy ra trong quá trình thêm tin tức mới!");
         }
     }
 
@@ -78,21 +79,21 @@ public class NewsServiceImpl implements NewsService {
             news.setUpdateDate(new Timestamp(System.currentTimeMillis()));
             return modelMapper.map(newsRepository.saveAndFlush(news), NewsDTO.class);
         }
-        throw new RuntimeException("Có lỗi xảy ra trong quá trình cập nhật tin tức!");
+        throw new MyCustomException("Có lỗi xảy ra trong quá trình cập nhật tin tức!");
     }
 
     @Override
     @Transactional
     public NewsDTO deleteByIdNews(Long id) {
         if (!newsRepository.existsById(id)) {
-            throw new RuntimeException("Tin tức có id: " + id + " cần xóa không tồn tại trong hệ thống!");
+            throw new MyCustomException("Tin tức có id: " + id + " cần xóa không tồn tại trong hệ thống!");
         }
         Optional<News> newsOptional = newsRepository.findById(id);
         if (newsOptional.isPresent()) {
             newsRepository.deleteById(id);
             return modelMapper.map(newsOptional, NewsDTO.class);
         }
-        throw new RuntimeException("Có lỗi xảy ra trong quá trinh xóa tin tức!");
+        throw new MyCustomException("Có lỗi xảy ra trong quá trinh xóa tin tức!");
     }
 
     @Override
@@ -105,7 +106,7 @@ public class NewsServiceImpl implements NewsService {
                 newsDTOS.add(modelMapper.map(news, NewsDTO.class));
                 newsRepository.delete(news);
             } else {
-                throw new RuntimeException("Có lỗi xảy ra trong quá trình xóa danh sách tin tức!");
+                throw new MyCustomException("Có lỗi xảy ra trong quá trình xóa danh sách tin tức!");
             }
         }
         return newsDTOS;
@@ -114,7 +115,6 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public Page<News> filterNews(FilterNewsRequest request, Date dateFrom, Date dateTo) {
         Specification<News> specification = CustomNewsRepository.filterSpecification(dateFrom, dateTo, request);
-        Page<News> newsPage = newsRepository.findAll(specification, PageRequest.of(request.getStart(), request.getLimit()));
-        return newsPage;
+        return newsRepository.findAll(specification, PageRequest.of(request.getStart(), request.getLimit()));
     }
 }

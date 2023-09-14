@@ -24,10 +24,11 @@ import java.util.List;
 public class DocumentController extends BaseController {
     private final DocumentService documentService;
 
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public DocumentController(DocumentService documentService) {
+    public DocumentController(DocumentService documentService, ModelMapper modelMapper) {
         this.documentService = documentService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/all")

@@ -22,10 +22,11 @@ import java.util.Optional;
 @Service
 public class ExamScheduleServiceImpl implements ExamScheduleService {
     private final ExamScheduleRepository examScheduleRepository;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public ExamScheduleServiceImpl(ExamScheduleRepository examScheduleRepository) {
+    public ExamScheduleServiceImpl(ExamScheduleRepository examScheduleRepository, ModelMapper modelMapper) {
         this.examScheduleRepository = examScheduleRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override

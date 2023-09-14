@@ -18,10 +18,11 @@ import java.util.Optional;
 @Service
 public class PermissionServiceImpl implements PermissionService {
     private final PermissionRepository permissionRepository;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public PermissionServiceImpl(PermissionRepository permissionRepository) {
+    public PermissionServiceImpl(PermissionRepository permissionRepository, ModelMapper modelMapper) {
         this.permissionRepository = permissionRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override

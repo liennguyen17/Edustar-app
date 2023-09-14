@@ -17,16 +17,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/roles")
 public class RoleController extends BaseController {
     private final RoleService roleService;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public RoleController(RoleService roleService) {
+    public RoleController(RoleService roleService, ModelMapper modelMapper) {
         this.roleService = roleService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/all")

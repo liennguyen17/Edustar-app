@@ -34,14 +34,15 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final ServiceRepository serviceRepository;
     private final PasswordEncoder encoder;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, ServiceRepository serviceRepository, PasswordEncoder encoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, ServiceRepository serviceRepository, PasswordEncoder encoder, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.serviceRepository = serviceRepository;
         this.encoder = encoder;
+        this.modelMapper = modelMapper;
     }
 
     @Override

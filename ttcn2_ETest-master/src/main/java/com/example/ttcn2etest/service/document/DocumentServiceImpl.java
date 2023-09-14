@@ -20,15 +20,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
     private final DocumentRepository documentRepository;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public DocumentServiceImpl(DocumentRepository documentRepository) {
+    public DocumentServiceImpl(DocumentRepository documentRepository, ModelMapper modelMapper) {
         this.documentRepository = documentRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override

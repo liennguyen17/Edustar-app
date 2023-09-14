@@ -147,12 +147,6 @@ Mttcn2_ETest-master/src/main/java/com/example/ttcn2etest/model/etity/User.java,
 Rttcn2_ETest-master/src/main/java/com/example/ttcn2etest/model/UserDetailsImpl.java,f\6\f650ee4d1a9a75f36d864560e594745957222256
 ~
 Nttcn2_ETest-master/src/main/java/com/example/ttcn2etest/model/dto/UserDTO.java,b\4\b48bfef78298383390c9bb10e7d1d0941bac312f
-Š
-Zttcn2_ETest-master/src/main/java/com/example/ttcn2etest/controller/DocumentController.java,8\1\81c580157ca5303c0433b3132c5fb6b7ba829eab
-†
-Vttcn2_ETest-master/src/main/java/com/example/ttcn2etest/controller/NewsController.java,3\0\3032f7bbdc07e1ed3157003ce11e9b9c66ad5369
-†
-Vttcn2_ETest-master/src/main/java/com/example/ttcn2etest/controller/RoleController.java,0\2\02187531509ee41c9fd164f6f49132ab20a7f935
 •
 ettcn2_ETest-master/src/main/java/com/example/ttcn2etest/exception/UsernameAlreadyExistsException.java,d\4\d4e1ef002268db6fb045c92f98b91382dfb4ff15
 …

@@ -18,16 +18,16 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/service")
 public class ServiceController extends BaseController {
     private final StudyService studyService;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public ServiceController(StudyService studyService) {
+    public ServiceController(StudyService studyService, ModelMapper modelMapper) {
         this.studyService = studyService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/all")

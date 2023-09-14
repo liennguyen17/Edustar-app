@@ -24,10 +24,11 @@ import java.util.Optional;
 @Service
 public class DisplayServiceImpl implements DisplayService {
     private final DisplayManagerRepository displayManagerRepository;
-    private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
 
-    public DisplayServiceImpl(DisplayManagerRepository displayManagerRepository) {
+    public DisplayServiceImpl(DisplayManagerRepository displayManagerRepository, ModelMapper modelMapper) {
         this.displayManagerRepository = displayManagerRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
