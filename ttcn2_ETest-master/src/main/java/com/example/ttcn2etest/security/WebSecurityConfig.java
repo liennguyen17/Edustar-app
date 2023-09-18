@@ -71,6 +71,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/user/auth/**").permitAll()
+                .requestMatchers("/file/**").permitAll()
                 .requestMatchers(request -> {
                     if (request.getMethod().equals(HttpMethod.GET.toString())) {
                         return new RegexRequestMatcher("/(document|news|slide|service|display|exam/schedule|...)/(all|\\d+)", null).matches(request);

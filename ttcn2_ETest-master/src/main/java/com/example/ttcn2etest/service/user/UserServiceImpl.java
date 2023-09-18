@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
                 user.setUpdateDate(new Timestamp(System.currentTimeMillis()));
                 user.setRole(buildRole(roleOptional.get().getRoleId()));
                 user.setServices(services);
-                return modelMapper.map(userRepository.save(user), UserDTO.class);
+                return modelMapper.map(userRepository.saveAndFlush(user), UserDTO.class);
             }
         } catch (Exception ex) {
             throw new MyCustomException("Quá trình cập nhật thông tin người dùng không thành công ! " + ex.getMessage());

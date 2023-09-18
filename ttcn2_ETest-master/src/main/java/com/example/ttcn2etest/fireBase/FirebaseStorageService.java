@@ -28,7 +28,10 @@ public class FirebaseStorageService {
         String originalFilename = file.getOriginalFilename();
 
         // Generate a unique filename
-        String filename = UUID.randomUUID().toString() + getFileExtension(originalFilename);
+//        String filename = UUID.randomUUID().toString() + getFileExtension(originalFilename);
+
+        //Lấy tên file là tên gốc mình upload
+        String filename = originalFilename;
 
         Blob blob = storage.create(BlobInfo.newBuilder(bucketName, filename)
                 .setContentType(file.getContentType())
