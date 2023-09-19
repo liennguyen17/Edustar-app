@@ -1,0 +1,6 @@
+
+b	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(œˆÚ8óËØÇ¨1
+\
+java:S1118":Add a private constructor to hide the implicit public one.(‰ßÀıÿÿÿÿ8ùËØÇ¨1
+s
+java:S2159"VRemove this call to "equals"; comparisons between unrelated types always return false.(¶„§Á8ıËØÇ¨1

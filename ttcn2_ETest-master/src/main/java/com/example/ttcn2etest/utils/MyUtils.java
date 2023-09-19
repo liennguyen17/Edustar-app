@@ -10,4 +10,14 @@ public class MyUtils {
         simpleDateFormat.setLenient(false);
         return simpleDateFormat.parse(dateStr);
     }
+
+    public static Date validateDateFromString(String dateStr, String dateTimeFormat) throws ParseException {
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateTimeFormat);
+            simpleDateFormat.setLenient(false);
+            return simpleDateFormat.parse(dateStr);
+        }catch (ParseException e){
+            return null;
+        }
+    }
 }

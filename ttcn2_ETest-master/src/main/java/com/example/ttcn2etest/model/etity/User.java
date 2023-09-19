@@ -1,6 +1,8 @@
 package com.example.ttcn2etest.model.etity;
 
 import com.example.ttcn2etest.constant.RoleEnum;
+import com.example.ttcn2etest.importFileExcel.ExcelData;
+import com.example.ttcn2etest.validator.UserValidator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -62,8 +64,8 @@ public class User {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         if (role != null) {
-            role.getPermissions().forEach(permission -> authorities.add(new SimpleGrantedAuthority(permission.getPermissionId())));
-            authorities.add(new SimpleGrantedAuthority(role.getRoleId()));
+            role.getPermissions().forEach(permission -> authorities.add(new SimpleGrantedAuthority(permission.getPermissionId()))); // lay den quyen
+            authorities.add(new SimpleGrantedAuthority(role.getRoleId())); //lay den vai tro
         }
 //        if (isSuperAdmin) {
 //            authorities.add(new SimpleGrantedAuthority(RoleEnum.ADMIN.name()));
@@ -72,6 +74,28 @@ public class User {
 //            authorities.add(new SimpleGrantedAuthority(RoleEnum.CUSTOMER.name()));
 //        }
         return authorities;
+    }
+
+    public List<ExcelData.ErrorDetail> validateInformationDetailError(List<ExcelData.ErrorDetail> errorDetailList){
+        if(!UserValidator.validateName(name)){
+            errorDetailList.add(ExcelData.ErrorDetail.builder().columnIndex(0).errMsg("Họ và tên không hợp lệ!").build());
+        }
+        if(!UserValidator.validatePhone(phone)){
+            errorDetailList.add(ExcelData.ErrorDetail.builder().columnIndex(1).errMsg("Số điện thoại không hợp lêk!").build());
+        }
+        if(!UserValidator.isValidEmail(email)){
+            errorDetailList.add(ExcelData.ErrorDetail.builder().columnIndex(2).errMsg("Email không hợp lệ!").build());
+        }
+        if(!UserValidator.validateBod(dateOfBirth)){
+            errorDetailList.add(ExcelData.ErrorDetail.builder().columnIndex(3).errMsg("Ngày sinh không hợp lệ!").build());
+        }
+        if(!UserValidator.validateAddress(address)){
+            errorDetailList.add(ExcelData.ErrorDetail.builder().columnIndex(4).errMsg("Địa chỉ không hợp lệ!").build());
+        }
+        if(!UserValidator.isVerifiedValid(isVerified)){
+            errorDetailList.add(ExcelData.ErrorDetail.builder().columnIndex(5).errMsg("Xác thực đăng nhập không hợp lệ!").build());
+        }
+        return errorDetailList;
     }
 
 }
