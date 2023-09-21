@@ -1,10 +1,9 @@
 package com.example.ttcn2etest.service.user;
 
+import com.example.ttcn2etest.model.dto.User1DTO;
 import com.example.ttcn2etest.model.dto.UserDTO;
 import com.example.ttcn2etest.model.etity.User;
-import com.example.ttcn2etest.request.user.CreateUserRequest;
-import com.example.ttcn2etest.request.user.FilterUserRequest;
-import com.example.ttcn2etest.request.user.UpdateUserRequest;
+import com.example.ttcn2etest.request.user.*;
 import org.springframework.data.domain.Page;
 
 import java.text.ParseException;
@@ -25,5 +24,13 @@ public interface UserService {
     List<UserDTO> deleteAllIdUser(List<Long> ids);
 
     Page<User> filterUser(FilterUserRequest request, Date dateFrom, Date dateTo, Date dateOfBirthFrom, Date dateOfBirthTo);
+
+    UserDTO getUserProfile();
+
+    User1DTO getUserProfileAndService();
+
+    UserDTO updateAvatar(UploadAvatarRequest request);
+
+    UserDTO updateCustomer(UpdateCustomerRequest request);
 
 }

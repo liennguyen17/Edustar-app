@@ -15,7 +15,7 @@ public class RegisterRequest {
     @NotBlank(message = "Họ và tên không được để trống!")
     @Size(min = 6, max = 100, message = "Họ và tên phải có ít nhất 6, nhiều nhất 100 kí tự!")
     private String name;
-    @NotBlank(message = "Tên đăng ký không được để trống!")
+    @NotBlank(message = "Tên tài khoản không được để trống!")
     @Size(min = 6, max = 100, message = "Tên đăng ký phải có ít nhất 6, nhiều nhất 100 kí tự!")
     private String username;
     @NotBlank(message = "Mật khẩu không được để trống!")

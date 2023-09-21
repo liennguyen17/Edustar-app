@@ -1,16 +1,16 @@
 package com.example.ttcn2etest.controller;
 
 import com.example.ttcn2etest.constant.DateTimeConstant;
+import com.example.ttcn2etest.model.dto.User1DTO;
 import com.example.ttcn2etest.model.dto.UserDTO;
 import com.example.ttcn2etest.model.etity.User;
-import com.example.ttcn2etest.request.user.CreateUserRequest;
-import com.example.ttcn2etest.request.user.FilterUserRequest;
-import com.example.ttcn2etest.request.user.UpdateUserRequest;
+import com.example.ttcn2etest.request.user.*;
 import com.example.ttcn2etest.service.user.UserService;
 import com.example.ttcn2etest.utils.MyUtils;
 import jakarta.validation.Valid;
 import org.apache.logging.log4j.util.Strings;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -94,5 +94,32 @@ public class UserController extends BaseController {
                 user -> modelMapper.map(user, UserDTO.class)
         ).toList();
         return buildListItemResponse(userDTOS, userPage.getTotalElements());
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserProfile(){
+        UserDTO userDTO = userService.getUserProfile();
+        return buildItemResponse(userDTO);
+    }
+
+    @GetMapping("/profile/service")
+    public ResponseEntity<?> getUserProfileAndService(){
+        User1DTO userDTO = userService.getUserProfileAndService();
+        return buildItemResponse(userDTO);
+    }
+
+    @PutMapping("/update/avatar")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
+    public ResponseEntity<?> updateAvatar(
+            @Valid @RequestBody UploadAvatarRequest request){
+        UserDTO response = userService.updateAvatar(request);
+        return buildItemResponse(response);
+    }
+
+    @PutMapping("/update")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
+    public  ResponseEntity<?> updateCustomer(@Validated @RequestBody UpdateCustomerRequest request){
+        UserDTO response = userService.updateCustomer(request);
+        return buildItemResponse(response);
     }
 }

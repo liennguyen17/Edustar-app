@@ -32,7 +32,7 @@ public class ServiceRequest {
     @Size(max = 100, message = "Số buổi từ 0-100 ký tự!")
     private String numberTeachingSessions;
     //    @NotEmpty(message = "Lộ trình đào tạo không được để trống!")
-    @Size(max = 1000)
+    @Size(max = 1000, message = "Tối đa 1000 ký tự!")
     private List<String> curriculum;
 
     @Enumerated(EnumType.STRING)

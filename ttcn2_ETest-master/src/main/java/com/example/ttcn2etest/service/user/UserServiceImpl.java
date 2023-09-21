@@ -2,6 +2,7 @@ package com.example.ttcn2etest.service.user;
 
 import com.example.ttcn2etest.constant.DateTimeConstant;
 import com.example.ttcn2etest.exception.MyCustomException;
+import com.example.ttcn2etest.model.dto.User1DTO;
 import com.example.ttcn2etest.model.dto.UserDTO;
 import com.example.ttcn2etest.model.etity.Role;
 import com.example.ttcn2etest.model.etity.User;
@@ -9,9 +10,7 @@ import com.example.ttcn2etest.repository.role.RoleRepository;
 import com.example.ttcn2etest.repository.service.ServiceRepository;
 import com.example.ttcn2etest.repository.user.CustomUserRepository;
 import com.example.ttcn2etest.repository.user.UserRepository;
-import com.example.ttcn2etest.request.user.CreateUserRequest;
-import com.example.ttcn2etest.request.user.FilterUserRequest;
-import com.example.ttcn2etest.request.user.UpdateUserRequest;
+import com.example.ttcn2etest.request.user.*;
 import com.example.ttcn2etest.utils.MyUtils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -20,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -157,6 +158,93 @@ public class UserServiceImpl implements UserService {
     public Page<User> filterUser(FilterUserRequest request, Date dateFrom, Date dateTo, Date dateOfBirthFrom, Date dateOfBirthTo) {
         Specification<User> specification = CustomUserRepository.filterSpecification(dateFrom, dateTo, dateOfBirthFrom, dateOfBirthTo, request);
         return userRepository.findAll(specification, PageRequest.of(request.getStart(), request.getLimit()));
+    }
+
+    @Override
+    public UserDTO getUserProfile() {
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String loggedInUsername = authentication.getName();
+
+            User loggedUser = userRepository.getUserByUsername(loggedInUsername);
+
+            if(loggedUser != null){
+                UserDTO userDTO = modelMapper.map(loggedUser, UserDTO.class);
+
+                return userDTO;
+            }
+        }catch (Exception ex){
+            throw new MyCustomException("Không tìm thấy thông tin người dùng!");
+        }
+        throw new MyCustomException("Có lỗi xảy ra trong quá trình lấy thông tin người dùng!");
+    }
+
+    @Override
+    public User1DTO getUserProfileAndService() {
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String loggedInUsername = authentication.getName();
+
+            User loggedUser = userRepository.getUserByUsername(loggedInUsername);
+
+            if(loggedUser != null){
+                User1DTO userDTO = modelMapper.map(loggedUser, User1DTO.class);
+
+                return userDTO;
+            }
+        }catch (Exception ex){
+            throw new RuntimeException("Không tìm thấy thông tin khách hàng!");
+        }
+        throw new MyCustomException("Có lỗi xảy ra trong quá trình lấy thông tin người dùng!");
+    }
+
+    @Override
+    public UserDTO updateAvatar(UploadAvatarRequest request) {
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String loggedInUsername = authentication.getName();
+
+            User loggedUser = userRepository.getUserByUsername(loggedInUsername);
+
+
+            if(loggedUser != null){
+                loggedUser.setAvatar(request.getAvatar());
+                userRepository.saveAndFlush(loggedUser);
+
+                UserDTO userDTO = modelMapper.map(loggedUser, UserDTO.class);
+
+                return userDTO;
+            }
+        }catch (Exception ex){
+            throw new RuntimeException("Không tìm thấy thông tin khách hàng!");
+        }
+        throw new MyCustomException("Có lỗi xảy ra trong quá trình cập nhật ảnh!");
+    }
+
+    @Override
+    public UserDTO updateCustomer(UpdateCustomerRequest request) {
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String loggedInUsername = authentication.getName();
+
+            User loggedUser = userRepository.getUserByUsername(loggedInUsername);
+
+            if(loggedUser != null){
+                loggedUser.setName(request.getName());
+                loggedUser.setEmail(request.getEmail());
+                loggedUser.setPhone(request.getPhone());
+                loggedUser.setAddress(request.getAddress());
+                loggedUser.setDateOfBirth(MyUtils.convertDateFromString(request.getDateOfBirth(), DateTimeConstant.DATE_FORMAT));
+                userRepository.saveAndFlush(loggedUser);
+
+                UserDTO userDTO = modelMapper.map(loggedUser, UserDTO.class);
+
+                return userDTO;
+            }
+        }catch (Exception ex){
+            throw new MyCustomException("Không tìm thấy thông tin khách hàng!");
+        }
+        throw new MyCustomException("Có lỗi xảy ra trong quá trình cập nhật thông tin khách hàng!");
     }
 
 

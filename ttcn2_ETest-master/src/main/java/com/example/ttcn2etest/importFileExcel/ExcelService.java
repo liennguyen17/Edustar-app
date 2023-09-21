@@ -26,7 +26,9 @@ import java.util.concurrent.*;
 public class ExcelService implements ExcelServiceImpl {
     private final UserRepository userRepository;
     public static final int MAX_THREADS = 3;
-    public static final String ERROR_USER_FILE = "ttcn2_ETest-master/upload/loi_nhap_du_lieu.xlsx";
+//    public static final String ERROR_USER_FILE = "ttcn2_ETest-master/upload/loi_nhap_du_lieu.xlsx";
+    public static final String ERROR_USER_FILE = "ttcn2_ETest-master/src/main/java/com/example/ttcn2etest/upload/loi_nhap_du_lieu.xlsx";
+
     //    public final String USER_FILE = "upload/danh_sach_khach_hang.xlsx";
     @Value("${firebase.storage.bucket}")
     private String bucketName;
