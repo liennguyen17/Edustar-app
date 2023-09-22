@@ -122,4 +122,16 @@ public class UserController extends BaseController {
         UserDTO response = userService.updateCustomer(request);
         return buildItemResponse(response);
     }
+
+    @PostMapping("/change/password")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest request){
+        userService.changePassword(request);
+        return buildItemResponse("Mật khẩu đã được thay đổi thành công!");
+    }
+
+    @PostMapping("/forgot/password")
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordRequest request){
+        userService.forgotPassword(request);
+        return buildItemResponse("Thành công!");
+    }
 }

@@ -33,4 +33,7 @@ public interface UserService {
 
     UserDTO updateCustomer(UpdateCustomerRequest request);
 
+    void changePassword(ChangePasswordRequest request);
+    void forgotPassword(ForgotPasswordRequest request);
+
 }

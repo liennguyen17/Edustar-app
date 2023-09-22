@@ -667,3 +667,7 @@ _ttcn2_ETest-master/src/main/java/com/example/ttcn2etest/request/user/UpdateCust
 [ttcn2_ETest-master/src/main/java/com/example/ttcn2etest/request/role/UpdateRoleRequest.java,5\1\51fefdc344d92ecfc99a53a2cdb80f9f95af90cc
 ó
 gttcn2_ETest-master/src/main/java/com/example/ttcn2etest/request/permission/UpdatePermissionRequest.java,3\b\3b6cf611a4bceeac8ffa8831ccc4234e324a364e
+è
+_ttcn2_ETest-master/src/main/java/com/example/ttcn2etest/request/user/ChangePasswordRequest.java,c\6\c6e9e4db6115a2fdeae5bb14675c713ef9102fb7
+è
+_ttcn2_ETest-master/src/main/java/com/example/ttcn2etest/request/user/ForgotPasswordRequest.java,4\5\45ac00199dba0d6d65a1304a91c940ca8a24ff95

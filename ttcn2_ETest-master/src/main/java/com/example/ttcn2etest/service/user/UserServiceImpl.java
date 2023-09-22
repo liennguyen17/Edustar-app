@@ -1,6 +1,7 @@
 package com.example.ttcn2etest.service.user;
 
 import com.example.ttcn2etest.constant.DateTimeConstant;
+import com.example.ttcn2etest.email.EmailService;
 import com.example.ttcn2etest.exception.MyCustomException;
 import com.example.ttcn2etest.model.dto.User1DTO;
 import com.example.ttcn2etest.model.dto.UserDTO;
@@ -34,6 +35,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final ServiceRepository serviceRepository;
+    @Autowired
+    private EmailService emailService;
     private final PasswordEncoder encoder;
     private final ModelMapper modelMapper;
 
@@ -162,18 +165,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserProfile() {
-        try{
+        try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String loggedInUsername = authentication.getName();
 
             User loggedUser = userRepository.getUserByUsername(loggedInUsername);
 
-            if(loggedUser != null){
+            if (loggedUser != null) {
                 UserDTO userDTO = modelMapper.map(loggedUser, UserDTO.class);
 
                 return userDTO;
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new MyCustomException("Không tìm thấy thông tin người dùng!");
         }
         throw new MyCustomException("Có lỗi xảy ra trong quá trình lấy thông tin người dùng!");
@@ -181,33 +184,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User1DTO getUserProfileAndService() {
-        try{
+        try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String loggedInUsername = authentication.getName();
 
             User loggedUser = userRepository.getUserByUsername(loggedInUsername);
 
-            if(loggedUser != null){
+            if (loggedUser != null) {
                 User1DTO userDTO = modelMapper.map(loggedUser, User1DTO.class);
 
                 return userDTO;
             }
-        }catch (Exception ex){
-            throw new RuntimeException("Không tìm thấy thông tin khách hàng!");
+        } catch (Exception ex) {
+            throw new MyCustomException("Không tìm thấy thông tin khách hàng!");
         }
         throw new MyCustomException("Có lỗi xảy ra trong quá trình lấy thông tin người dùng!");
     }
 
     @Override
     public UserDTO updateAvatar(UploadAvatarRequest request) {
-        try{
+        try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String loggedInUsername = authentication.getName();
 
             User loggedUser = userRepository.getUserByUsername(loggedInUsername);
 
 
-            if(loggedUser != null){
+            if (loggedUser != null) {
                 loggedUser.setAvatar(request.getAvatar());
                 userRepository.saveAndFlush(loggedUser);
 
@@ -215,7 +218,7 @@ public class UserServiceImpl implements UserService {
 
                 return userDTO;
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new RuntimeException("Không tìm thấy thông tin khách hàng!");
         }
         throw new MyCustomException("Có lỗi xảy ra trong quá trình cập nhật ảnh!");
@@ -223,13 +226,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO updateCustomer(UpdateCustomerRequest request) {
-        try{
+        try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String loggedInUsername = authentication.getName();
 
             User loggedUser = userRepository.getUserByUsername(loggedInUsername);
 
-            if(loggedUser != null){
+            if (loggedUser != null) {
                 loggedUser.setName(request.getName());
                 loggedUser.setEmail(request.getEmail());
                 loggedUser.setPhone(request.getPhone());
@@ -241,10 +244,147 @@ public class UserServiceImpl implements UserService {
 
                 return userDTO;
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new MyCustomException("Không tìm thấy thông tin khách hàng!");
         }
         throw new MyCustomException("Có lỗi xảy ra trong quá trình cập nhật thông tin khách hàng!");
+    }
+
+
+    @Override
+    public void changePassword(ChangePasswordRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loggedInUsername = authentication.getName();
+
+        Optional<User> userOptional = userRepository.findByUsername(loggedInUsername);
+        if(!userOptional.isPresent()){
+            throw new MyCustomException("Người dùng không tồn tại!");
+        }
+        User user = userOptional.get();
+
+        if(!encoder.matches(request.getOldPassword(), user.getPassword())){
+            throw new MyCustomException("Mật khẩu cũ không chính xác!");
+        }
+
+        if(!isValidPassword(request.getNewPassword())){
+            throw new MyCustomException("Mật khẩu mới không hợp lệ!");
+        }
+
+        if(!request.getConfirmNewPassword().equals(request.getNewPassword())){
+            throw new MyCustomException("Mật khẩu không khớp nhau!");
+        }
+
+        user.setPassword(encoder.encode(request.getNewPassword()));
+        userRepository.saveAndFlush(user);
+
+    }
+
+    @Override
+    public void forgotPassword(ForgotPasswordRequest request) {
+        User user = userRepository.findByEmail(request.getEmail());
+        if (user == null){
+            throw new MyCustomException("Không tìm thấy người dùng ứng với địa chỉ email này!");
+        }
+        String newPassword = generateVerificationCode();
+        user.setPassword(encoder.encode(newPassword));
+        userRepository.saveAndFlush(user);
+
+        String emailContent = "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<head>\n" +
+                "    <title>Quên mật khẩu</title>\n" +
+                "    <style>\n" +
+                "        body {\n" +
+                "            font-family: Arial, sans-serif;\n" +
+                "            background-color: #f4f4f4;\n" +
+                "        }\n" +
+                "        .container {\n" +
+                "            background-color: #fff;\n" +
+                "            border-radius: 5px;\n" +
+                "            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n" +
+                "            margin: 0 auto;\n" +
+                "            max-width: 600px;\n" +
+                "            padding: 20px;\n" +
+                "        }\n" +
+                "        .header {\n" +
+                "            background-color: #FB9400;\n" +
+                "            border-radius: 5px 5px 0 0;\n" +
+                "            color: #fff;\n" +
+                "            padding: 20px;\n" +
+                "            text-align: center;\n" +
+                "        }\n" +
+                "        .content {\n" +
+                "            padding: 20px;\n" +
+                "        }\n" +
+                "        .code {\n" +
+                "            background-color: #FFF4E5;\n" +
+                "            border: 2px solid #FB9400;\n" +
+                "            border-radius: 4px;\n" +
+                "            color: #fff;\n" +
+                "            display: inline-block;\n" +
+                "            font-size: 18px;\n" +
+                "            margin-top: 10px;\n" +
+                "            padding: 10px 15px;\n" +
+                "            margin: 10px auto;\n" +
+                "        }\n" +
+                "        .footer {\n" +
+                "            background-color: #f4f4f4;\n" +
+                "            border-radius: 0 0 5px 5px;\n" +
+                "            padding: 10px;\n" +
+                "            text-align: center;\n" +
+                "        }\n" +
+                "    </style>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "    <div class=\"container\">\n" +
+                "        <div class=\"header\">\n" +
+                "            <h2>Quên mật khẩu</h2>\n" +
+                "        </div>\n" +
+                "        <div class=\"content\">\n" +
+                "            <p>Chào bạn!</p>\n" +
+                "            <p>Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu EduStar của bạn.</p>\n" +
+                "            <p>Đây là mã xác nhận của bạn:</p>\n" +
+                "            <div class=\"code\">"+newPassword+"</div>\n" +
+                "            <p>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.</p>\n" +
+                "        </div>\n" +
+                "        <div class=\"footer\">\n" +
+                "            <p>Trân trọng,</p>\n" +
+                "            <p>Edustart</p>\n" +
+                "        </div>\n" +
+                "    </div>\n" +
+                "</body>\n" +
+                "</html>";
+
+
+        emailService.sendEmailHtml(user.getEmail(), newPassword + " là mã khôi phục tài khoản EduStar của bạn\n",emailContent);
+
+    }
+
+
+
+    public static String generateVerificationCode(){
+        Random random = new Random();
+        int code = 100000 + random.nextInt(900000);
+        return String.valueOf(code);
+    }
+
+    public static boolean isValidPassword(String password){
+        if (password.length() < 8){
+            throw new MyCustomException("Mật khẩu phải có ít nhất 8 ký tự!");
+        }
+        if(!password.matches(".*[A-Z].*")){
+            throw new MyCustomException("Mật khẩu phải chưa ít nhất một chữ hoa!");
+        }
+        if(!password.matches(".*[a-z].*")){
+            throw new MyCustomException("Mật khẩu phải chưa ít nhất một chữ thường!");
+        }
+        if(!password.matches(".*\\d.*")){
+            throw new MyCustomException("Mật khẩu phải chứa ít nhất một chữ số.");
+        }
+        if(!password.matches(".*[@#$%^&+=].*")){
+            throw new MyCustomException("Mật khẩu phải chứa ít nhất một ký tự đặc biệt.");
+        }
+        return true;
     }
 
 
