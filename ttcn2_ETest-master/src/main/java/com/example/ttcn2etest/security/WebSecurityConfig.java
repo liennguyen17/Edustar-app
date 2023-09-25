@@ -73,6 +73,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/user/auth/**").permitAll()
                 .requestMatchers("/file/**").permitAll()
                 .requestMatchers("/user/forgot/password").permitAll()
+                .requestMatchers("/consulting/registration").permitAll()
                 .requestMatchers(request -> {
                     if (request.getMethod().equals(HttpMethod.GET.toString())) {
                         return new RegexRequestMatcher("/(document|news|slide|service|display|exam/schedule|...)/(all|\\d+)", null).matches(request);

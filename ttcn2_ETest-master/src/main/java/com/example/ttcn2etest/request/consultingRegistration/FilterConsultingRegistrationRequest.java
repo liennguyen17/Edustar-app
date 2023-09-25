@@ -1,5 +1,6 @@
 package com.example.ttcn2etest.request.consultingRegistration;
 
+import com.example.ttcn2etest.model.etity.ConsultingRegistration;
 import com.example.ttcn2etest.validator.DateValidateAnnotation;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -17,5 +18,6 @@ public class FilterConsultingRegistrationRequest {
     private String name;
     private String email;
     private String phone;
+    private ConsultingRegistration.Status status;
 //    private String contentAdvice;
 }

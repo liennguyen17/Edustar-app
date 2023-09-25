@@ -671,3 +671,5 @@ _ttcn2_ETest-master/src/main/java/com/example/ttcn2etest/request/user/UpdateCust
 _ttcn2_ETest-master/src/main/java/com/example/ttcn2etest/request/user/ChangePasswordRequest.java,c\6\c6e9e4db6115a2fdeae5bb14675c713ef9102fb7
 è
 _ttcn2_ETest-master/src/main/java/com/example/ttcn2etest/request/user/ForgotPasswordRequest.java,4\5\45ac00199dba0d6d65a1304a91c940ca8a24ff95
+Ø
+ttcn2_ETest-master/src/main/java/com/example/ttcn2etest/request/consultingRegistration/FilterConsultingRegistrationRequest.java,0\2\02d7fa06d9e1a76db50e6a68c01edf84f3ab8bbe
