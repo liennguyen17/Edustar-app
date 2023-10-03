@@ -133,6 +133,6 @@ public class UserController extends BaseController {
     @PostMapping("/forgot/password")
     public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordRequest request){
         userService.forgotPassword(request);
-        return buildItemResponse("Thành công!");
+        return buildItemResponse("Quá trình thực hiện chức năng quên mật khẩu thành công!");
     }
 }

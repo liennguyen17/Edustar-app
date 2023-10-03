@@ -5,6 +5,7 @@ import com.example.ttcn2etest.validator.DateValidateAnnotation;
 import com.example.ttcn2etest.validator.EmailAnnotation;
 import com.example.ttcn2etest.validator.PhoneNumber;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 

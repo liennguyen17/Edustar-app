@@ -2,6 +2,7 @@ package com.example.ttcn2etest.importFileExcel.thread;
 
 import com.example.ttcn2etest.importFileExcel.ExcelData;
 import com.example.ttcn2etest.model.etity.User;
+import com.example.ttcn2etest.utils.MyUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.apache.poi.ss.usermodel.Cell;
@@ -21,7 +22,7 @@ public class WriteError implements Callable<Void> {
         row.createCell(0).setCellValue(user.getName());
         row.createCell(1).setCellValue(user.getPhone());
         row.createCell(2).setCellValue(user.getEmail());
-        row.createCell(3).setCellValue(user.getDateOfBirth());
+        row.createCell(3).setCellValue(MyUtils.convertDateToString(user.getDateOfBirth())); // sua
         row.createCell(4).setCellValue(user.getAddress());
         row.createCell(5).setCellValue(user.isVerified());
         row.createCell(6).setCellValue(user.getUsername());

@@ -95,6 +95,9 @@ public class User {
         if(!UserValidator.isVerifiedValid(isVerified)){
             errorDetailList.add(ExcelData.ErrorDetail.builder().columnIndex(5).errMsg("Xác thực đăng nhập không hợp lệ!").build());
         }
+        if(!UserValidator.validateUsername(username)){
+            errorDetailList.add(ExcelData.ErrorDetail.builder().columnIndex(6).errMsg("Tên đăng nhập không hợp lệ!").build());
+        }
         return errorDetailList;
     }
 

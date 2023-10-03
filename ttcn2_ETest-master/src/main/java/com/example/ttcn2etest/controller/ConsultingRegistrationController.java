@@ -47,7 +47,6 @@ public class ConsultingRegistrationController extends BaseController {
     }
 
     @PostMapping("")
-    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     ResponseEntity<?> createConsultingRegistration(@Validated @RequestBody CreateConsultingRegistrationRequest request) {
         ConsultingRegistrationDTO response = consultingRegistrationService.createConsultingRegistration(request);
         return buildItemResponse(response);

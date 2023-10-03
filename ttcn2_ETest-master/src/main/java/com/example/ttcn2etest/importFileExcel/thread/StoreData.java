@@ -49,11 +49,11 @@ public class StoreData implements Callable<ExcelData> {
 
             List<ExcelData.ErrorDetail> errorDetailList = user.validateInformationDetailError(new CopyOnWriteArrayList<>());
             if (userRepository.existsAllByEmail(email)) {
-                errorDetailList.add(ExcelData.ErrorDetail.builder().columnIndex(2).errMsg("Email already exists").build());
+                errorDetailList.add(ExcelData.ErrorDetail.builder().columnIndex(2).errMsg("Email đã tồn tại trong hệ thống!").build());
             }
 
             if (userRepository.existsByUsername(username)) {
-                errorDetailList.add(ExcelData.ErrorDetail.builder().columnIndex(6).errMsg("Username already exists").build());
+                errorDetailList.add(ExcelData.ErrorDetail.builder().columnIndex(6).errMsg("Username đã tồn tại trong hệ thống!").build());
             }
 
             excelData.setUser(user);

@@ -20,4 +20,9 @@ public class MyUtils {
             return null;
         }
     }
+
+    public static String convertDateToString(Date inputDate){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return simpleDateFormat.format(inputDate);
+    }
 }

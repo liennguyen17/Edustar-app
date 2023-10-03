@@ -320,7 +320,7 @@ public class UserServiceImpl implements UserService {
                 "            background-color: #FFF4E5;\n" +
                 "            border: 2px solid #FB9400;\n" +
                 "            border-radius: 4px;\n" +
-                "            color: #fff;\n" +
+                "            color: #000000;\n" +
                 "            display: inline-block;\n" +
                 "            font-size: 18px;\n" +
                 "            margin-top: 10px;\n" +
@@ -345,7 +345,7 @@ public class UserServiceImpl implements UserService {
                 "            <p>Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu EduStar của bạn.</p>\n" +
                 "            <p>Đây là mã xác nhận của bạn:</p>\n" +
                 "            <div class=\"code\">"+newPassword+"</div>\n" +
-                "            <p>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.</p>\n" +
+                "            <p>Nhập mã để đăng nhập vào tài khoản EduStar của bạn !</p>\n" +
                 "        </div>\n" +
                 "        <div class=\"footer\">\n" +
                 "            <p>Trân trọng,</p>\n" +
@@ -356,7 +356,7 @@ public class UserServiceImpl implements UserService {
                 "</html>";
 
 
-        emailService.sendEmailHtml(user.getEmail(), newPassword + " là mã khôi phục tài khoản EduStar của bạn\n",emailContent);
+        emailService.sendEmailHtml(user.getEmail(), newPassword + " là mã khôi phục tài khoản EduStar của bạn !\n",emailContent);
 
     }
 

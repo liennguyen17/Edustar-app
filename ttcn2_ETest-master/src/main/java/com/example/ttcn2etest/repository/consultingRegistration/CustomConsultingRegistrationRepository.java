@@ -1,5 +1,6 @@
 package com.example.ttcn2etest.repository.consultingRegistration;
 
+import com.example.ttcn2etest.exception.MyCustomException;
 import com.example.ttcn2etest.model.etity.ConsultingRegistration;
 import com.example.ttcn2etest.request.consultingRegistration.FilterConsultingRegistrationRequest;
 import jakarta.persistence.criteria.Predicate;
@@ -29,6 +30,14 @@ public class CustomConsultingRegistrationRepository {
             }
             if (StringUtils.hasText(request.getEmail())) {
                 predicates.add(criteriaBuilder.equal(root.get("email"), request.getEmail()));
+            }
+            if(request.getStatus() != null && !request.getStatus().equals("")){
+                try{
+                    ConsultingRegistration.Status status = ConsultingRegistration.Status.valueOf(String.valueOf(request.getStatus()));
+                    predicates.add(criteriaBuilder.equal(root.get("status"), status));
+                }catch (Exception e) {
+                    throw new MyCustomException("Trạng thái đăng ký không hợp lệ!");
+                }
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         })));

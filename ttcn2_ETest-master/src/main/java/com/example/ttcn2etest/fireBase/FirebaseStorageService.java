@@ -19,7 +19,7 @@ public class FirebaseStorageService {
     private String bucketName;
 
     public String uploadFile(MultipartFile file) throws IOException {
-        InputStream serviceAccount = getClass().getResourceAsStream("/e-test-3d981-firebase-adminsdk-u31s6-1a408ddb35.json");
+        InputStream serviceAccount = getClass().getResourceAsStream("/edustar-231a3-firebase-adminsdk-eqjyb-0d04b578c1.json");
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
         StorageOptions storageOptions = StorageOptions.newBuilder().setCredentials(credentials).build();
         Storage storage = storageOptions.getService();
@@ -37,7 +37,7 @@ public class FirebaseStorageService {
                 .build(), file.getInputStream());
 
         // Ví dụ: Thời gian hết hạn là 100 năm
-        long expirationTime = System.currentTimeMillis() + 100L * 365 * 24 * 60 * 60 * 1000;
+        long expirationTime = EXPIRATION_TIME;
         String downloadUrl = blob.signUrl(expirationTime, TimeUnit.MILLISECONDS).toString();
 
         return downloadUrl;
@@ -52,7 +52,7 @@ public class FirebaseStorageService {
 
     public String uploadFileExcel(String filePath, String bucketName) throws IOException {
         // Xác thực google firebase
-        InputStream serviceAccountKey = getClass().getResourceAsStream("/e-test-3d981-firebase-adminsdk-u31s6-1a408ddb35.json");
+        InputStream serviceAccountKey = getClass().getResourceAsStream("/edustar-231a3-firebase-adminsdk-eqjyb-0d04b578c1.json");
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccountKey);
 
         // Nhận storage service

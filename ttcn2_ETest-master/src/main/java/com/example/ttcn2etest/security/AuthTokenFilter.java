@@ -7,30 +7,57 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class AuthTokenFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
+    @Value("${public-url}")
+    private String publicUrlConfig;
+
+    private List<String> publicUrls;
+
+    private List<Pattern> publicUrlPatterns; //danh sach cac bieu thuc chinh quy duoc bien dich
 
     @Autowired
     public AuthTokenFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    @PostConstruct
+    public void init() {
+        String[] publicUrlArray = publicUrlConfig.split(",");
+        publicUrlPatterns = Arrays.stream(publicUrlArray)
+                .map(Pattern::compile)
+                .toList();
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
+            if (checkUrl(request.getRequestURI())) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
             String jwt = parseJwt(request);
             if (StringUtils.hasText(jwt) && jwtTokenProvider.validateJwtToken(jwt)) {
                 UsernamePasswordAuthenticationToken authenticationToken = jwtTokenProvider.getUserInfoFromJWT(jwt);
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
+
+
         } catch (Exception ex) {
             throw ex;
         }
@@ -44,4 +71,16 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         }
         return null;
     }
+
+
+    public boolean checkUrl(String requestUrl) {
+        for(Pattern publicUrlPattern : publicUrlPatterns){
+            if(publicUrlPattern.matcher(requestUrl).matches()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

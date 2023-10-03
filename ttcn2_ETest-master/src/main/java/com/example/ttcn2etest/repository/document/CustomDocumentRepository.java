@@ -1,5 +1,6 @@
 package com.example.ttcn2etest.repository.document;
 
+import com.example.ttcn2etest.exception.MyCustomException;
 import com.example.ttcn2etest.model.etity.Document;
 import com.example.ttcn2etest.request.document.FilterDocumentRequest;
 import jakarta.persistence.criteria.Predicate;
@@ -28,7 +29,7 @@ public class CustomDocumentRepository {
                     Document.Status status = Document.Status.valueOf(String.valueOf(request.getStatus()));
                     predicates.add(criteriaBuilder.equal(root.get("status"), status));
                 } catch (Exception e) {
-                    throw new RuntimeException("Loại tài liệu tìm kiếm không hợp lệ!");
+                    throw new MyCustomException("Loại tài liệu tìm kiếm không hợp lệ!");
                 }
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

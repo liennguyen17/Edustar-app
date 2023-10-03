@@ -26,7 +26,7 @@ import java.util.concurrent.*;
 public class ExcelService implements ExcelServiceImpl {
     private final UserRepository userRepository;
     public static final int MAX_THREADS = 3;
-//    public static final String ERROR_USER_FILE = "ttcn2_ETest-master/upload/loi_nhap_du_lieu.xlsx";
+    //    public static final String ERROR_USER_FILE = "ttcn2_ETest-master/upload/loi_nhap_du_lieu.xlsx";
     public static final String ERROR_USER_FILE = "ttcn2_ETest-master/src/main/java/com/example/ttcn2etest/upload/loi_nhap_du_lieu.xlsx";
 
     //    public final String USER_FILE = "upload/danh_sach_khach_hang.xlsx";
@@ -123,10 +123,16 @@ public class ExcelService implements ExcelServiceImpl {
             fileOutputStream.close();
 
             return firebaseStorageService.uploadFileExcel(ERROR_USER_FILE, bucketName);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException("Có lỗi xảy ra trong quá trình nhập/ghi file!");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new MyCustomException("Dữ liệu truyền vào không đúng, kiểm tra lại các trường theo template import user đã cung cấp!");
+        }
+//        catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+        catch (IOException e) {
+            throw new MyCustomException("Có lỗi xảy ra trong quá trình nhập/ghi file!");
+        }        catch (Exception e){
+            throw new MyCustomException("Có lỗi xảy ra trong quá trình nhập dữ liệu khách hàng!");
         }
     }
 
