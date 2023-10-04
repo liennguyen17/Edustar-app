@@ -1,6 +1,7 @@
 package com.example.ttcn2etest.security;
 
 import com.example.ttcn2etest.service.auth.JwtTokenProvider;
+import io.netty.handler.codec.http.HttpMethod;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,9 +27,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Value("${public-url}")
     private String publicUrlConfig;
 
+    @Value("${public-url-get}")
+    private String publicUrlGetConfig;
+
     private List<String> publicUrls;
 
     private List<Pattern> publicUrlPatterns; //danh sach cac bieu thuc chinh quy duoc bien dich
+    private List<Pattern> publicUrlGetPatterns;
 
     @Autowired
     public AuthTokenFilter(JwtTokenProvider jwtTokenProvider) {
@@ -41,12 +46,22 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         publicUrlPatterns = Arrays.stream(publicUrlArray)
                 .map(Pattern::compile)
                 .toList();
+
+        String[] publicUrlGetArray = publicUrlGetConfig.split(",");
+        publicUrlGetPatterns = Arrays.stream(publicUrlGetArray)
+                .map(Pattern::compile)
+                .toList();
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             if (checkUrl(request.getRequestURI())) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            if(request.getMethod().equals(HttpMethod.GET.name()) && checkUrlGet(request.getRequestURI())){
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -76,6 +91,15 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     public boolean checkUrl(String requestUrl) {
         for(Pattern publicUrlPattern : publicUrlPatterns){
             if(publicUrlPattern.matcher(requestUrl).matches()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkUrlGet(String requestUrlGet){
+        for(Pattern publicUrlGetPattern : publicUrlGetPatterns){
+            if(publicUrlGetPattern.matcher(requestUrlGet).matches()){
                 return true;
             }
         }
