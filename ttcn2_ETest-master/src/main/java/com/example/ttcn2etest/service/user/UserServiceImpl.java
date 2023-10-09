@@ -369,8 +369,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public static boolean isValidPassword(String password){
-        if (password.length() < 8){
-            throw new MyCustomException("Mật khẩu phải có ít nhất 8 ký tự!");
+        if (password.length() < 6){
+            throw new MyCustomException("Mật khẩu phải có ít nhất 6 ký tự!");
         }
         if(!password.matches(".*[A-Z].*")){
             throw new MyCustomException("Mật khẩu phải chưa ít nhất một chữ hoa!");

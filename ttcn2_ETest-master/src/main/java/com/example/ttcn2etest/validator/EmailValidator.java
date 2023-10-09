@@ -21,6 +21,38 @@ public class EmailValidator implements ConstraintValidator<EmailAnnotation, Stri
             return true; // Allow null values
         }
 
+        // Kiểm tra độ dài tổng cộng của email không vượt quá 320 ký tự
+        if (email.length() > 320) {
+            return false;
+        }
+
+        // Kiểm tra xem email có chứa đúng một ký tự '@'
+        int atCount = (int) email.chars().filter(ch -> ch == '@').count();
+        if (atCount != 1) {
+            return false;
+        }
+
+        // Kiểm tra xem email có bắt đầu hoặc kết thúc bằng dấu chấm (".")
+        if (email.startsWith(".") || email.endsWith(".")) {
+            return false;
+        }
+
+        // Kiểm tra không có hai hoặc nhiều dấu chấm liên tiếp, ".@" hoặc "@."
+        if (email.contains("..") || email.contains(".@") || email.contains("@.")) {
+            return false;
+        }
+
+        // Kiểm tra độ dài tên miền không vượt quá 254 ký tự
+        String[] parts = email.split("@");
+        if (parts.length != 2) {
+            return false;
+        }
+        String domain = parts[1];
+        if (domain.length() > 254) {
+            return false;
+        }
+
+        // Kiểm tra định dạng email bằng regex
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
