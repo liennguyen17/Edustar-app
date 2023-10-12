@@ -11,7 +11,7 @@ import lombok.Data;
 public class UpdateCustomerRequest {
     @NotBlank(message = "Tên nguời dùng không được để trống!")
     @Size(min = 6, max = 100, message = "Tên người dùng phải có ít nhất 6, nhiều nhất 100 kí tự!")
-    @UsernameAnnotation(message = "Username không được chứa khoảng trắng hoặc các ký tự đặc biệt!")
+    @NameAnnotation
     private String name;
     @NotBlank(message = "Ngày sinh không được để trống!")
     @DateValidateAnnotation(message = "Định dạng ngày tháng phải là dd/mm/yyyy")
