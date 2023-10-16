@@ -1,8 +1,8 @@
 
 t	java:S116
-"XRename this field "EMAIL_PATTERN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ö×¡Ü8³úÞª1
+"XRename this field "EMAIL_PATTERN" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ö×¡Ü8È¯ãœ±1
 >
 java:S1170
-"!Make this final field static too.(Ö×¡Ü8ž³úÞª1
-œ
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(„¿¾ùùÿÿÿÿ
+"!Make this final field static too.(Ö×¡Ü8Ê¯ãœ±1
+£
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(„¿¾ùùÿÿÿÿ8Î¯ãœ±1

@@ -2,6 +2,7 @@ package com.example.ttcn2etest.request.consultingRegistration;
 
 import com.example.ttcn2etest.model.etity.ConsultingRegistration;
 import com.example.ttcn2etest.validator.EmailAnnotation;
+import com.example.ttcn2etest.validator.NameAnnotation;
 import com.example.ttcn2etest.validator.PhoneNumber;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -16,6 +17,7 @@ import static com.example.ttcn2etest.model.etity.ConsultingRegistration.Status.W
 public class CreateConsultingRegistrationRequest {
     @NotBlank(message = "Họ và tên không được để trống!")
     @Size(max = 100)
+    @NameAnnotation
     private String name;
 
     //    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Email không hợp lệ!")

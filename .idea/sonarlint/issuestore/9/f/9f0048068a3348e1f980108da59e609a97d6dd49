@@ -1,8 +1,10 @@
 
-o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¡ˆäà
-U
-java:S1118":Add a private constructor to hide the implicit public one.(©îğøÿÿÿÿ
-7
-java:S1110"!Remove these useless parentheses.(¦æâ›
-7
-java:S1110"!Remove these useless parentheses.(¦æâ›
+v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¡ˆäà8ñíâ«1
+\
+java:S1118":Add a private constructor to hide the implicit public one.(©îğøÿÿÿÿ8ôíâ«1
+>
+java:S1110"!Remove these useless parentheses.(¦æâ›8öíâ«1
+>
+java:S1110"!Remove these useless parentheses.(¦æâ›8öíâ«1
+s
+java:S2159""VRemove this call to "equals"; comparisons between unrelated types always return false.(¶„§Á8ÁÂ±º¬1

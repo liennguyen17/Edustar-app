@@ -1,3 +1,7 @@
 
-r
-java:S2737#"WAdd logic to this catch clause or eliminate it and rethrow the exception automatically.(¤­—Îşÿÿÿÿ
+y
+java:S2737M"WAdd logic to this catch clause or eliminate it and rethrow the exception automatically.(¤­—Îşÿÿÿÿ8öÕìÎ¯1
+Q
+java:S1128"4Remove this unused import 'java.util.regex.Matcher'.(ëÅ›ã8ûÕìÎ¯1
+K
+java:S1068!".Remove this unused "publicUrls" private field.(Éƒ¾ï8ûÕìÎ¯1

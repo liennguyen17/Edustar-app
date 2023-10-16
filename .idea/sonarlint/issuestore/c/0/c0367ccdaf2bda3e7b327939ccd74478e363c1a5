@@ -1,0 +1,11 @@
+
+W
+java:S1141p"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8õØû¬1
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ª€İğÿÿÿÿÿ8÷Øû¬1
+]	java:S125"<This block of commented-out lines of code should be removed.(Œè¹‘øÿÿÿÿ8¦ŸØû¬1
+]	java:S125 "<This block of commented-out lines of code should be removed.(³°ªùÿÿÿÿ8§ŸØû¬1
+{
+java:S2142r"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(üŸ´Â8ÄŸØû¬1
+Y	java:S125"<This block of commented-out lines of code should be removed.(æÉÂØ8ÇŸØû¬1
+\
+java:S1128":Remove this unused import 'java.io.FileNotFoundException'.(·î™ùÿÿÿÿ8–ßşû¬1
