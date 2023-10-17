@@ -15,7 +15,7 @@ import static java.lang.annotation.ElementType.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UsernameValidator.class)
 public @interface UsernameAnnotation {
-    String message() default "Tên đăng nhâp(Username) không hợp lệ!";
+    String message() default "Tên đăng nhập(Username) không hợp lệ, không được chứa khoảng trắng, viết liền và chứa ký tự là chữ và số!";
 
     Class<?>[] groups() default {};
 

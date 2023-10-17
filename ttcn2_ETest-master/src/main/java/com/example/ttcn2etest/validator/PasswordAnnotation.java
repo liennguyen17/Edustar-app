@@ -15,7 +15,7 @@ import static java.lang.annotation.ElementType.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PasswordValidator.class)
 public @interface PasswordAnnotation {
-    String message() default "Mật khẩu không hợp lệ!";
+    String message() default "Mật khẩu không hợp lệ, mật khẩu phải chứa 1 ký tự viết hoa, viết thường, chữ số, 1 ký tự đặc biệt!";
 
     Class<?>[] groups() default {};
 
