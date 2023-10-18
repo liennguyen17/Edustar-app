@@ -349,7 +349,7 @@ public class UserServiceImpl implements UserService {
                 "        </div>\n" +
                 "        <div class=\"footer\">\n" +
                 "            <p>Trân trọng,</p>\n" +
-                "            <p>Edustar</p>\n" +
+                "            <p>EduStar</p>\n" +
                 "        </div>\n" +
                 "    </div>\n" +
                 "</body>\n" +

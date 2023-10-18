@@ -20,9 +20,9 @@ java:S1488Ù"_Immediately return this expression instead of assigning it to the
 |
 java:S1488ó"_Immediately return this expression instead of assigning it to the temporary variable "userDTO".(ä½£k8úª±1
 z
-java:S3655]"XCall "roleOptional.isPresent()" or "!roleOptional.isEmpty()" before accessing the value.(À‘À—ÿÿÿÿÿ8ÑÄÃ±1
-z
 java:S3655|"XCall "roleOptional.isPresent()" or "!roleOptional.isEmpty()" before accessing the value.(À‘À—ÿÿÿÿÿ8ÑÄÃ±1
+z
+java:S3655]"XCall "roleOptional.isPresent()" or "!roleOptional.isEmpty()" before accessing the value.(À‘À—ÿÿÿÿÿ8ÑÄÃ±1
 b
 java:S2583"DChange this condition so that it does not always evaluate to "false"(†‹šœ8ÑÄÃ±1
 ;
