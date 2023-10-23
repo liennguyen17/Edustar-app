@@ -1,9 +1,9 @@
 
 }
-java:S1128"[Remove this unused import 'io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType'.(Èòï¡øÿÿÿÿ8¬®¿–²1
+java:S1128"[Remove this unused import 'io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType'.(Èòï¡øÿÿÿÿ8ºàÉŒ´1
 f
-java:S1128"DRemove this unused import 'jakarta.validation.constraints.NotBlank'.(ÕØ¡Õøÿÿÿÿ8¬®¿–²1
+java:S1128"DRemove this unused import 'jakarta.validation.constraints.NotBlank'.(ÕØ¡Õøÿÿÿÿ8ºàÉŒ´1
 X
-java:S1128";Remove this unused import 'org.hibernate.annotations.Type'.(ı®™Ê8­®¿–²1
+java:S1128";Remove this unused import 'org.hibernate.annotations.Type'.(ı®™Ê8»àÉŒ´1
 L
-java:S1128"*Remove this unused import 'java.util.Set'.(ö²„¤şÿÿÿÿ8­®¿–²1
+java:S1128"*Remove this unused import 'java.util.Set'.(ö²„¤şÿÿÿÿ8»àÉŒ´1

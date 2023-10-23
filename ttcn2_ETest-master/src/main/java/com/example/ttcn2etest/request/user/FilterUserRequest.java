@@ -24,4 +24,6 @@ public class FilterUserRequest {
     private String address;
     private String phone;
     private String roleId;
+    private boolean isVerified;
+
 }

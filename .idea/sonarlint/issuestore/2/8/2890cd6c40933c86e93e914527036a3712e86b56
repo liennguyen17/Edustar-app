@@ -1,7 +1,7 @@
 
-]	java:S125+"<This block of commented-out lines of code should be removed.(Óùçùÿÿÿÿ8àÒ¼³1
+]	java:S125+"<This block of commented-out lines of code should be removed.(Óùçùÿÿÿÿ8ØãÉŒ´1
 C
-java:S1452@"&Remove usage of generic wildcard type.(×’æ´8¡àÒ¼³1
-X	java:S125F"<This block of commented-out lines of code should be removed.(š®°í8§àÒ¼³1
+java:S1452@"&Remove usage of generic wildcard type.(×’æ´8ÛãÉŒ´1
+X	java:S125F"<This block of commented-out lines of code should be removed.(š®°í8áãÉŒ´1
 b
-java:S1128"ERemove this unused import 'com.example.ttcn2etest.constant.RoleEnum'.(«ÑëÅ8ëàÒ¼³1
+java:S1128"ERemove this unused import 'com.example.ttcn2etest.constant.RoleEnum'.(«ÑëÅ8ñãÉŒ´1
